@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "700654813013",
+    "firebase_url": "https://holdmybike-998ed.firebaseio.com",
+    "project_id": "holdmybike-998ed",
+    "storage_bucket": "holdmybike-998ed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700654813013:android:c09db23542355d5757b9dc",
+        "android_client_info": {
+          "package_name": "com.hmk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "700654813013-3kusdgebfvrjv2oprk89dv3pm2b3mmj7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApQJiD_gig7QVmzba998OJ8XYWI5_pYAQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "700654813013-3kusdgebfvrjv2oprk89dv3pm2b3mmj7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
