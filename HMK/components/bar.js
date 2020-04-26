@@ -1,13 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Dimensions,View, Image,TouchableOpacity, StyleSheet,Text} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
-
+import * as Keychain from 'react-native-keychain';
+import firestore from '@react-native-firebase/firestore';
+import firestorage from '@react-native-firebase/storage';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const windowWidth = Dimensions.get('window').width;
 const menuImg = '../img/open-menu.png'
-const UserImg = '../img/account.png'
 
+
+async function getImg() {
+    let imgUri = null 
+    try {
+        const credit = await Keychain.getGenericPassword()
+        const type = await AsyncStorage.getItem("Type")
+        await firestore().collection(type).where('UserName',"==",credit.username).get().then( snapshot => {
+           if(snapshot.empty){
+               console.log("No matching docs")
+               return 
+           }
+           snapshot.forEach(doc => {    
+            
+            imgUri=doc.data().imgIcon
+            console.log(imgUri)     
+           })
+        })
+    } catch (error) {
+        return console.log("Something wrong ",error)
+    }
+    return imgUri
+}
 const styles = StyleSheet.create({
     bar:{
         flexDirection:'row',
@@ -34,6 +58,12 @@ const styles = StyleSheet.create({
 })
 export default function Bar(){
     const navigation = useNavigation();
+    const [Img,setImg] = useState('');
+    const [Icon,setIcon] = useState(null);
+    React.useEffect(() => {
+        getImg().then((uri) => setImg(uri))
+        firestorage().refFromURL('gs://holdmybike-998ed.appspot.com/account.png').getDownloadURL().then( img => setIcon(img))
+    },[])
     return (
         
         <View style={styles.bar}>
@@ -41,7 +71,7 @@ export default function Bar(){
                 <Image style={styles.img}  source={require(menuImg)}/>
             </TouchableOpacity>
             <Text style={styles.fonts}>HoldMyBike</Text>
-            <Avatar rounded containerStyle={{alignSelf:'center'}} source={require(UserImg)}/>
+            <Avatar rounded containerStyle={{alignSelf:'center'}} source={{uri:Icon}}/>
             
             
         </View>

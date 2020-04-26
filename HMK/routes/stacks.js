@@ -15,7 +15,7 @@ const AuthContext = createContext();
 const Stack = createStackNavigator();
 function createStack(){
 	const [isLoading,setIsLoading] = useState(true)
-	const [userToken,setUserToken] = useState(false)
+	const [userToken,setUserToken] = useState(null)
 
 	const auth = React.useMemo(() => {
 		return{
@@ -30,9 +30,8 @@ function createStack(){
 						  try{
 							await Keychain.setGenericPassword(Data.username, Data.pass);
 							const credentials = await Keychain.getGenericPassword();
-							
-							setUserToken(JSON.stringify(credentials))
-							console.log('LOGIN '+userToken)
+							setUserToken(Data.type)
+							await AsyncStorage.setItem("Type",Data.type);
 						  }
 						  catch(err){
 							console.log("Some thing is not right :",err);
@@ -63,14 +62,17 @@ function createStack(){
 						Province:null,
 						PostalCode:null,
 						Pass:signUpData.Pass,
-						Country:null,     
+						Country:null,
+						SubDist_Dist:null,
+						Road:null,     
 						registerDate:firestore.Timestamp.now(),
 						imgIcon:null, 
 						Location:null
 					}).then( async () => {
 						try{
-							await Keychain.setGenericPassword(Data.username, Data.pass,{ service: "customer" });
-							setUserToken(JSON.parse(await Keychain.getGenericPassword()))
+							await Keychain.setGenericPassword(Data.username, Data.pass);
+							setUserToken('customer')
+							await AsyncStorage.setItem("Type",'customer');
 							setIsLoading(false);
 						  }
 						  catch(err){
@@ -108,8 +110,9 @@ function createStack(){
 						selimg:null
 					}).then( async () => {
 						try{
-							await Keychain.setGenericPassword(Data.username, Data.pass,{ service: "host" });
-							setUserToken(JSON.parse(await Keychain.getGenericPassword()))
+							await Keychain.setGenericPassword(Data.username, Data.pass);
+							setUserToken('host')
+							await AsyncStorage.setItem("Type",'host');
 							setIsLoading(false);
 						  }
 						  catch(err){
@@ -126,10 +129,8 @@ function createStack(){
 				  catch(err){
 					console.log("Some thing is not right :",err.message);
 				  }
-				setUserToken(false);
-			},
-			toggleMenu: ({navigation}) =>{
-				navigation.toggleDrawer();
+				setUserToken(null);
+				await AsyncStorage.removeItem("Type")
 			}
 		}
 
@@ -137,10 +138,10 @@ function createStack(){
 
 	React.useEffect(()=>{
 		setTimeout(async () => {
-			try {
-				const credentials = await Keychain.getGenericPassword();			
-				setUserToken(JSON.stringify(credentials))
-				console.log('AuLOGIN '+userToken)
+			try {	
+				const credentials = await Keychain.getGenericPassword();	
+				const type = await AsyncStorage.getItem("Type")
+				setUserToken(type)
 				
 			} catch (error) {
 				console.log("Keychain couldn't be accessed!", error);	
@@ -152,12 +153,10 @@ function createStack(){
 		
 		return <Loading/>
 	}
-	const objToken = userToken
-	console.log("obj "+userToken)
 	return (
 		<AuthContext.Provider value={auth} >
 			<NavigationContainer>
-				{userToken == null || userToken == false ? (<Stack.Navigator>
+				{userToken == null ? (<Stack.Navigator>
 											<Stack.Screen name = "SignupStacks" component= {SignupStacks} 
 												options={{
 													headerShown: false
@@ -167,7 +166,7 @@ function createStack(){
 									: (<Stack.Navigator 
 			
 										>
-											{ objToken.service == "customer" ?  (
+											{ userToken == "customer" ?  (
 												<Stack.Screen name = "CustomerStack" component= {CustomerStack}
 												options={{
 													headerShown: false

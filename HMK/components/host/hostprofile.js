@@ -1,32 +1,69 @@
 import React, { useState } from 'react'
+import * as Keychain from 'react-native-keychain';
 import {ScrollView,View,Text,StyleSheet} from 'react-native'
 import Header from '../bar';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Divider,Input,Button } from 'react-native-elements';
-
+import firestore from '@react-native-firebase/firestore';
+async function getProfile() {
+    let Data = {}
+    try {
+        const credit = await Keychain.getGenericPassword()
+        const type = await AsyncStorage.getItem("Type")
+        await firestore().collection(type).where('UserName',"==",credit.username).get().then( snapshot => {
+           if(snapshot.empty){
+               console.log("No matching docs")
+               return
+           }
+           snapshot.forEach(doc => {
+           Data  = {
+                Name:doc.data().name,
+                GD:doc.data().gender,
+                PID:doc.data().Pid,
+                AGE:doc.data().age.toString(),
+                DoB:doc.data().DoB.seconds*1000,
+                Email:doc.data().email,
+                PN:doc.data().PhoneN,
+                RL:doc.data().religion,
+                ADDR:doc.data().Address,
+                Road:doc.data().Road,
+                SD:doc.data().SubDist_Dist,
+                PV:doc.data().Province,
+                PC:doc.data().postalCode,
+                parkingspace:doc.data().parkingspace.toString()
+            }
+        
+           })
+        })
+    } catch (error) {
+        return console.log("Something wrong ",error)
+    }
+    return Data
+}
 function Profile( {navigation} ) {
     const [edit,setEdit] = useState(true)
-    const formatted = new Date("2016-02-29");
-    const options = { year: 'numeric', month: 'short', day: '2-digit'};
-    const _resultDate = new Intl.DateTimeFormat('en-GB',options).format(formatted)
-   
+    const [Data,setData] = useState({})
+    React.useEffect(() => {
+        getProfile().then(doc => {
+            setData(doc)
+        })
+    },[])
     const PIlist = [
-        {id:1,text:'First Name',value:'Wasan'},
-        {id:2,text:'Last Name',value:'Chat'},
-        {id:3,text:'Gender',value:'Male'},
-        {id:4,text:'Personal ID',value:'0123456789123'},
-        {id:5,text:'Age',value:'23'},
-        {id:6,text:'Date of birth',value:_resultDate},
-        {id:7,text:'E-mail',value:'wasangg@gmail.com'},
-        {id:8,text:'Phone Number',value:'0918819211'},
-        {id:9,text:'Religion',value:'Buddha'},
+        {id:1,text:'Name',value:Data.Name},
+        {id:2,text:'Gender',value:Data.GD},
+        {id:3,text:'Personal ID',value:Data.PID},
+        {id:4,text:'Age',value:Data.AGE},
+        {id:5,text:'Date of birth',value:new Date(Data.DoB).toDateString()},
+        {id:6,text:'E-mail',value:Data.Email},
+        {id:7,text:'Phone Number',value:Data.PN},
+        {id:8,text:'Religion',value:Data.RL},
     ]
     const Addr = [
-        {field:'Plot/House number, Village',value:'144/4 M.5 Ban Tham'},
-        {field:'Road',value:'-'},
-        {field:'Subdistrict, District',value:'Chiang Dao'},
-        {field:'Province Postal Code',value:'Chiang Mai 50170'},
-        {field:'Parking Capacity',value:'23'}
+        {field:'Plot/House number, Village',value:Data.ADDR},
+        {field:'Road',value:Data.Road == '' ? '-' : Data.Road},
+        {field:'Subdistrict, District',value:Data.SD},
+        {field:'Province Postal Code',value:Data.PV +' '+ Data.PC},
+        {field:'Vehicle Capacity',value:Data.parkingspace}
     ]
     return(
         <View style={page.container}>

@@ -15,9 +15,9 @@ function customerStack({ navigation }){
 		<Drawer.Navigator 
 			drawerContent={props => <DrawerConents {...props}/>}
 			>
-			<Drawer.Screen name = "Feed" component= {Home}
+			<Drawer.Screen name = "Home" component= {Home}
 			/>
-			<Drawer.Screen name = "Feed2" component= {Profile}
+			<Drawer.Screen name = "Profile" component= {Profile}
 			/>
 		</Drawer.Navigator>
 	);
