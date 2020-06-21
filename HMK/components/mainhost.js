@@ -15,7 +15,7 @@ function Home({ navigation }){
 			<View style={page.Bigbox}>
 				<View style={page.box1}>
 					<Button title="Profile" type='clear' buttonStyle={[page.box2,{backgroundColor:'#b1ff69'}]} titleStyle={page.fontbox} onPress = {() => navigation.navigate('Profile')} />
-					<Button title="Cars" type='clear' buttonStyle={[page.box2,{backgroundColor:'#ff8f69'}]} titleStyle={page.fontbox} />
+					<Button title="Cars" type='clear' buttonStyle={[page.box2,{backgroundColor:'#ff8f69'}]} titleStyle={page.fontbox}  onPress={() => navigation.navigate('Cars')} />
 				</View>
 				<View style={page.box1}>
 					<Button title="Customers"  type='clear'buttonStyle={[page.box2,{backgroundColor:'#02f59c'}]} titleStyle={page.fontbox} />

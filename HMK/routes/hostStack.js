@@ -6,6 +6,7 @@ import Home from '../components/mainhost';
 import { AuthContext } from './stacks';
 import { createDrawerNavigator,DrawerContentScrollView,DrawerItemList,DrawerItem } from '@react-navigation/drawer';
 import Profile from '../components/host/hostprofile';
+import Cars from '../components/host/cars/cars';
 
 function DrawerConents(props){
 	const { signOut } = React.useContext(AuthContext);
@@ -29,6 +30,10 @@ function customerStack(){
 			
 			/>
 			<Drawer.Screen name = "Profile" component= {Profile}
+				
+			
+				/>
+				<Drawer.Screen name = "Cars" component= {Cars}
 				
 			
 				/>
