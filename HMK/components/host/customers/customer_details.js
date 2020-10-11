@@ -68,6 +68,7 @@ export default function customer_detail({route,navigation}){
                 
                 })
             }).then(async() => {
+                await firestore().collection('host').doc(request.host).update({vehicles:firebase.firestore.FieldValue.increment(1)})
                 await firestore().collection('host').doc(request.host).get().then( async  doc => {
                     await doc.data().wallet.get().then(async res => {
                         const id = res.id.replace(/\s+/g, "")

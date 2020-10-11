@@ -82,18 +82,38 @@ function customerStack( ){
 	return (
 		<Drawer.Navigator 
 			drawerStyle={{
-				backgroundColor: '#c6cbef',
+				backgroundColor: '#1ca7ec',
 				width: 240,
 		  	}}
 			drawerContent={(props) => <DrawerConents {...props}/>}
 			>
 			<Drawer.Screen name = "Parkings" component= {parkings} 
+							options={{
+								drawerLabel:'โฮสต์',
+								drawerIcon: () => (
+									<Icons  name="parking" size={20} style={{alignSelf:'center',marginRight:6,paddingLeft:2}} />					)
+							}}
 			/>
 			<Drawer.Screen name = "Profile" component= {Profile}
+										options={{
+											drawerLabel:'โปรไฟล์',
+											drawerIcon: () => (
+												<Icons  name="user-alt" size={20} style={{alignSelf:'center',marginRight:6,paddingLeft:2}} />					)
+										}}
 			/>
 			<Drawer.Screen name = "Cars" component= {Cars}
+										options={{
+											drawerLabel:'โรงรถ',
+											drawerIcon: () => (
+												<Icons  name="car" size={20} style={{alignSelf:'center',marginRight:6,paddingLeft:2}} />					)
+										}}
 			/>
 			<Drawer.Screen name = "Payments" component= {Payments}
+										options={{
+											drawerLabel:'กระเป๋าตังค์',
+											drawerIcon: () => (
+												<Icons  name="wallet" size={20} style={{alignSelf:'center',marginRight:6,paddingLeft:2}} />					)
+										}}
 			/>
 		</Drawer.Navigator>
 	);
@@ -157,11 +177,8 @@ function DrawerConents(props){
 			<Text style={{fontSize:32,fontWeight:'bold',alignSelf:'center'}}>{name}</Text>
 		</View>
 		<Divider/>
-		<DrawerItem style={{justifyContent:'space-between',alignSelf:'center',margin:10}} labelStyle={{fontSize:16}} label="โฮสต์"  icon={(props) => <Icons {...props} name="parking" size={20} />} onPress={() => navigation.navigate("Parkings")}/>
-		<DrawerItem style={{justifyContent:'space-between',alignSelf:'center',margin:10}} labelStyle={{fontSize:16}} label="โปรไฟล์" icon={(props) => <Icons {...props} name="user-alt" size={20} />} onPress={() => navigation.navigate("Profile")}/>
-		<DrawerItem style={{justifyContent:'space-between',alignSelf:'center',margin:10}} labelStyle={{fontSize:16}} label="โรงรถ" icon={(props) => <Icons {...props} name="car" size={20} />} onPress={() => navigation.navigate("Cars")}/>
-		<DrawerItem style={{justifyContent:'space-between',alignSelf:'center',margin:10}} labelStyle={{fontSize:16}} label="กระเป๋าเงิน" icon={(props) => <Icons {...props} name="wallet" size={20} />} onPress={() => navigation.navigate("Payments")}/>
-		<DrawerItem style={{justifyContent:'space-between',alignSelf:'center',margin:10}} labelStyle={{fontSize:16}} label="ออกจากระบบ" icon={(props) => <Icons {...props} name="sign-out-alt" size={20} />} onPress={() => signOut()} 
+		<DrawerItemList activeBackgroundColor={'#78D5F5'} {...props} />		  
+		<DrawerItem  labelStyle={{fontSize:16}} label="ออกจากระบบ" icon={(props) => <Icons {...props} name="sign-out-alt" size={20} color={'black'}  style={{alignSelf:'center',marginRight:6,paddingLeft:2}}  />} onPress={() => signOut()}   
 		/>
 	  </DrawerContentScrollView>
 	)

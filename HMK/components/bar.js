@@ -94,7 +94,7 @@ export default function Bar(){
             <TouchableOpacity style={{alignSelf:'center'}} onPress={() => navigation.toggleDrawer()} >
                 <Icons name='menu' size={50} color='#1F2F98' />
             </TouchableOpacity>
-            <Text style={styles.fonts}>HoldMyBike</Text>
+            <Text style={styles.fonts}>HoldMyRide</Text>
             <Avatar rounded size='medium' containerStyle={{alignSelf:'center'}} source={{uri:Icon}} />
             
             

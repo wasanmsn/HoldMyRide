@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import {Dimensions,View, Image,TouchableOpacity, StyleSheet,Text, ScrollView, InteractionManager, Alert} from 'react-native';
-import { Input, Button, Overlay } from 'react-native-elements';
-import {Card,Dialog,Portal, TextInput,Avatar, Divider} from 'react-native-paper'
-
+import { Input, Overlay } from 'react-native-elements';
+import {Card,Dialog,Portal, TextInput,Avatar, Button} from 'react-native-paper'
+import LinearGradient from 'react-native-linear-gradient'
 import firestore, { firebase } from '@react-native-firebase/firestore';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -137,7 +137,7 @@ export default function host_details({route,navigation}){
     const coordinates = [{latitude:item.houseLocation._latitude,longitude:item.houseLocation._longitude},{latitude:coord.latitude,longitude:coord.longitude}]
 
     return(
-        <View style={{flex:1}}>
+        <LinearGradient colors={['#78d5f5','#787ff6']} start={{x: 0, y: 0}} end={{x: 1, y: 1}} style={{flex:1}}>
             <Header />
             <ScrollView >
                 <Card style={{marginVertical:5,flexDirection:'row',justifyContent:'space-between',backgroundColor:'#7197F1'}} >
@@ -235,13 +235,13 @@ export default function host_details({route,navigation}){
                             }
                         />
                 </View>
-                <View style={styles.back_btnRow}>
-                        <Button title="กลับ" style={styles.back2} containerStyle={styles.back_btn} onPress={() => {
+                <View style={{flexDirection:'row',justifyContent:'space-between',padding:50}}>
+                        <Button title="กลับ" contentStyle={{width:100,backgroundColor:'#1f2798'}} color='white' onPress={() => {
                             navigation.goBack()
-                        }} />
+                        }} >กลับ</Button>
                         <Button 
-                        style={styles.done2}
-                        containerStyle={styles.done_btn}
+                        contentStyle={{width:100,backgroundColor:'#1f2798'}}
+                        color='white'
                         title="ฝาก"
                         onPress={async () => {
                             console.log(data)
@@ -260,7 +260,7 @@ export default function host_details({route,navigation}){
                             }) 
                             
                         }}
-                        />
+                        >ฝาก</Button>
                 </View>
 
             </ScrollView>            
@@ -278,16 +278,16 @@ export default function host_details({route,navigation}){
                              </Text>
                             <View style={{height:1,alignSelf:'stretch',borderColor:'blue',borderWidth:2}}></View>
                             <View style={{flexDirection:'row',marginVertical:20}}>
-                                <Button title="ยกเลิก" style={styles.overlar_btns} containerStyle={{width:100}} onPress={() => {
+                                <Button  contentStyle={{width:100,backgroundColor:'#1f2798'}} color='white'  onPress={() => {
                                     toggleOverlay()
-                                }} />
-                                <Button title="ตกลง" style={styles.overlar_btns} containerStyle={{width:100,marginLeft:15}} onPress={ () => {
+                                }} >ยกเลิก</Button>
+                                <Button  contentStyle={{width:100,backgroundColor:'#1f2798'}} color='white'  onPress={ () => {
                                    sendRequest()
-                                }} />                                
+                                }} > ตกลง </Button>                           
                             </View>
                         </View>
             </Overlay>
-        </View>
+        </LinearGradient>
     )
 }
 
@@ -366,8 +366,9 @@ const styles = StyleSheet.create({
 
     },
     overlar_btns:{
-        color: "rgba(255,255,255,1)",
+        backgroundColor:'#1f2f98',
         marginTop: 19,
+        width:100
     },
     cancle_btn:{      width: 100,
                         height:50,

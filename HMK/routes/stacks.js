@@ -17,7 +17,35 @@ import header from '../components/bar'
 const AuthContext = createContext();
 const Stack = createStackNavigator();
 
+async function uploadImage(uri,ID,name){
+    // Why are we using XMLHttpRequest? See:
+  // https://github.com/expo/expo/issues/2402#issuecomment-443726662
 
+  const blob = await new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+      resolve(xhr.response);
+    };
+    xhr.onerror = function(e) {
+      console.log(e);
+      reject(new TypeError('Network request failed'));
+    };
+    xhr.responseType = 'blob';
+    xhr.open('GET', uri, true);
+    xhr.send(null);
+  });
+
+  const ref = firebase
+    .storage()
+    .ref()
+    .child(`${ID}/${name}/${ID}.jpg`);
+  const snapshot = await ref.put(blob);
+
+  // We're done with the blob, close and release it
+  blob.close();
+  return 
+  
+}
 
 function createStack(){
 	const [isLoading,setIsLoading] = useState(true)
@@ -96,7 +124,8 @@ function createStack(){
 					})
 					
 				
-			},signUpHost: async signUpData  =>{
+			},signUpHost: async (signUpData,uri)  =>{
+				console.log(uri)
 				const stringData = JSON.stringify({
 					type:'host',
 					username:signUpData.UserName,
@@ -126,7 +155,9 @@ function createStack(){
 						selimg:'',
 						SubDist_Dist:'',
 						Road:'',
-						vehicles:0
+						vehicles:0,
+						Idcard:'',
+						DriverLic:''
 					}).then( async (res) => {
 						try{
 							await firestore().collection('wallet').add({
@@ -139,6 +170,24 @@ function createStack(){
 							setUserToken('host')
 							await AsyncStorage.setItem("Type",'host');
 							setIsLoading(false);
+							uploadImage(uri.IDcard,res.id,'idcard').then( (time) => {
+								firestore().collection('host').doc(res.id).update({Idcard:`gs://holdmybike-998ed.appspot.com/${res.id}/idcard/${res.id}.jpg`})
+								
+								}	
+								).catch(err => console.log(err.message
+							))
+							uploadImage(uri.address,res.id,'houseregis').then( (time) => {
+								firestore().collection('host').doc(res.id).update({houseregis:`gs://holdmybike-998ed.appspot.com/${res.id}/houseregis/${res.id}.jpg`})
+								
+								}	
+								).catch(err => console.log(err.message
+							))
+							uploadImage(uri.lic,res.id,'drivelicence').then( (time) => {
+								firestore().collection('host').doc(res.id).update({DriverLic:`gs://holdmybike-998ed.appspot.com/${res.id}/drivelicence/${res.id}.jpg`})
+								
+								}	
+								).catch(err => console.log(err.message
+							))
 						  }
 						  catch(err){
 							console.log("Some thing is not right :",err.message);

@@ -24,8 +24,7 @@ export default function customers({navigation}){
             const obsData = data.onSnapshot(querySnapshots => {
                 console.log(querySnapshots.size)
                 querySnapshots.docChanges().forEach(change => {
-
-                    if (change){
+                    if(change){
                         setRequest([])
                     }
                     const docs = querySnapshots.docs.map(doc => {

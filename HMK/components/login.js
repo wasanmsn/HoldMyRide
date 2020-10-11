@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button , TextInput } from 'react-native';
 import  { AuthContext }  from '../routes/stacks';
-
+import Lingrad from 'react-native-linear-gradient'
 
 var sha256 = require('js-sha256').sha256;
 
@@ -19,9 +19,9 @@ function Login({ navigation }){
 
 
 	return (
-		<View style={page.container}>
+		<Lingrad colors={['#7bd5f5','#ffffff']}  style={page.container}>
 			<Text style={page.title} >
-			HoldMyBike
+			HoldMyRide
 			</Text>
 
 			<TextInput placeholder="Username"
@@ -47,6 +47,7 @@ function Login({ navigation }){
 			/>
 			<View style={{ margin:17,width:200}}>
 				<Button title="เข้าสู่ระบบสำหรับลูกค้า" 
+				color='#1ca7ec'
 				onPress={() => {
 					Data.type = "customer";
 					if(Data.username != '' && pass != ''){
@@ -65,6 +66,7 @@ function Login({ navigation }){
 			
 			<View style={{ margin:17,width:200}}>
 				<Button title="เข้าสู้ระบบสำหรับโฮสต์"
+				color='#4adede'
 				onPress={() => {
 					Data.type= "host"
 					signIn(Data)}}
@@ -73,9 +75,9 @@ function Login({ navigation }){
 			</View>
 
 			<View style={{ margin:17,width:200}}>
-				<Button color="green" title="สมัครสมาชิก" onPress={ () => {navigation.navigate("Signup")}} />
+				<Button color="#787ff6" title="สมัครสมาชิก" onPress={ () => {navigation.navigate("Signup")}} />
 			</View>		
-		</View>	
+		</Lingrad>	
 	);
 }
 const page = StyleSheet.create({

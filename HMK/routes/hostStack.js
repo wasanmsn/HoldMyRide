@@ -6,7 +6,7 @@ import firestore ,{ firebase } from '@react-native-firebase/firestore';
 import firestorage from '@react-native-firebase/storage';
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-picker'
-//import { AuthContext } from './stacks';
+import { AuthContext } from './stacks';
 import { createDrawerNavigator,DrawerContentScrollView,DrawerItemList,DrawerItem } from '@react-navigation/drawer';
 import { StyleSheet ,View,Text, TouchableOpacity} from 'react-native';
 import {Divider} from 'react-native-paper'
@@ -165,7 +165,7 @@ function DrawerConents(props){
 			}
 		})
 	}
-	//const { signOut } = React.useContext(AuthContext);
+	const { signOut } = React.useContext(AuthContext);
 	return(
 	<DrawerContentScrollView {...props}>
 		<View>

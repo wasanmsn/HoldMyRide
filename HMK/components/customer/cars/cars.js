@@ -1,14 +1,14 @@
 import React, { useState,useMemo,useEffect } from 'react';
 import { Text, View,StyleSheet, TouchableOpacity,ScrollView } from 'react-native';
-import { Icon,Divider,Button,Image  } from 'react-native-elements';
+import { Icon,Divider,Image  } from 'react-native-elements';
 import firestore from '@react-native-firebase/firestore';
 import Header from '../../bar';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as Keychain from 'react-native-keychain';
 import firestorage from '@react-native-firebase/storage';
 import { useIsFocused } from '@react-navigation/native'
-import {Card,Dialog,Portal, TextInput,Avatar } from 'react-native-paper'
-
+import {Card,Dialog,Portal, TextInput,Avatar,Button } from 'react-native-paper'
+import LinearGradient from 'react-native-linear-gradient'
 const defaultImg = '../../../img/account.png'
 function Cars ({navigation}){
     const [vehis,setVehis] = useState([])
@@ -47,7 +47,7 @@ function Cars ({navigation}){
     },[isFocused])
     
     return (
-        <View style={page.container}>
+        <LinearGradient colors={['#78d5f5','#787ff6']} start={{x: 0, y: 0}} end={{x: 1, y: 1}} style={page.container}>
             <Header />
             
             <ScrollView style={page.box1}>
@@ -74,12 +74,12 @@ function Cars ({navigation}){
             </ScrollView>
             <Divider />
             <View style={[page.box2,{justifyContent:'space-evenly',margin:20,padding:15}]}>
-                    <Button title="กลับ" containerStyle={{width:100}} onPress={() => navigation.goBack()} >
-
+                    <Button contentStyle={{width:100,backgroundColor:'#1f2798'}} mode='contained' onPress={() => navigation.goBack()} >
+                                กลับ
                     </Button>
-                   <Button title="เพิ่มรถ" containerStyle={{width:100}} onPress={() => navigation.navigate("addCar")}  />
+                   <Button contentStyle={{width:100,backgroundColor:'#1f2798'}} mode='contained' onPress={() => navigation.navigate("addCar")}  >เพิ่มรถ </Button>
                 </View>
-        </View>
+        </LinearGradient>
     )
 }
 const page = StyleSheet.create({

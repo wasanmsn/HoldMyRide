@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import { StyleSheet, Text, View, Button , TextInput, ScrollView} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import  {AuthContext}  from '../../../routes/stacks';
-
+import Linegrad from 'react-native-linear-gradient'
 var sha256 = require('js-sha256').sha256;
 
 function Siguphost({navigation}) {
@@ -10,13 +10,12 @@ function Siguphost({navigation}) {
     const [Pass,setPass]= useState('');
     const [Email,setEmail]= useState('');
     const [ConfirmPass,setConfirmPass] = useState('');
-    const { signUpHost } = React.useContext(AuthContext);
     const [box1,setBox1] = useState('blue')
     const [box2,setBox2] = useState('blue')
     const [box3,setBox3] = useState('blue')
     const [box4,setBox4] = useState('blue')
     const [userText,setUserText] = useState('')
-    const [passText,setPassText] = useState('black')
+    const [passText,setPassText] = useState('gray')
     const [conPassText,setconPassText] = useState('')
     const [emailText,setemailText] = useState('')
     const [checkUsername,setCU] = useState(false)
@@ -36,9 +35,9 @@ function Siguphost({navigation}) {
     }; 
     
     return(
-        <View style={page.container}>
+        <Linegrad colors={['#7bd5f5','#ffffff']} style={page.container}>
 			<Text style={page.title} >
-			HoldMyBike
+			HoldMyRide
 			</Text>
             <Text style={page.text} >
 			สำหรับโฮสต์
@@ -155,7 +154,7 @@ function Siguphost({navigation}) {
                 <View style={{ margin:17, width:150}}>
 				    <Button title="สมัคร" onPress={ () => {
                        if(checkConPass && checkEmail && checkUsername && checkPass){
-                        signUpHost(signUpData)
+                        navigation.navigate('uploadImg',{signUpData})
                          }
                         else{
                         alert("ได้โปรแน่ใจว่าไส่ทุกอย่างแล้ว")
@@ -165,7 +164,7 @@ function Siguphost({navigation}) {
 			    </View>	
 
             </View>
-		</View>	
+		</Linegrad>	
 
     );
 }

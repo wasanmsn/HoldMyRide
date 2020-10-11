@@ -1,30 +1,30 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
-
+import Linegrad from 'react-native-linear-gradient'
 
 
 
 function Signup({ navigation }) {
     return(
-        <View style={page.container}>
+        <Linegrad colors={['#7bd5f5','#ffffff']}  style={page.container}>
 			<Text style={page.title} >
-			HoldMyBike
+			HoldMyRide
 			</Text>
 			<View style={{width:258, margin:26}}>
-                <Button title="สมัครเป็นโฮสต์"
+                <Button title="สมัครเป็นโฮสต์" color='#1ca7ec'
                 onPress={() => {
                     navigation.navigate('Signuphost')
                 }} />
 			</View>
             <View style={{ width:258,margin:26}}>
-				<Button title="สมัครเป็นลูกค้า" onPress={() => {
+				<Button title="สมัครเป็นลูกค้า" color='#4adede' onPress={() => {
                     navigation.navigate('Signupcust')
                 }} 
                 
                 />
 			</View>
       <View style={{ width:258,margin:26}}>
-				<Button title="เข้าสู่ระบบ" onPress={() => {
+				<Button title="เข้าสู่ระบบ" color="#787ff6" onPress={() => {
                    navigation.goBack()
                 }} 
                 
@@ -33,7 +33,7 @@ function Signup({ navigation }) {
 
 
 			
-		</View>	
+		</Linegrad>	
 
     );
     

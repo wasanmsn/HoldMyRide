@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button , TextInput, ScrollView } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import  {AuthContext}  from '../../../routes/stacks';
-
+import Linegrad from 'react-native-linear-gradient'
 
 
 var sha256 = require('js-sha256').sha256;
@@ -19,7 +19,7 @@ function Signupcust({ navigation } ) {
     const [box3,setBox3] = useState('blue')
     const [box4,setBox4] = useState('blue')
     const [userText,setUserText] = useState('')
-    const [passText,setPassText] = useState('black')
+    const [passText,setPassText] = useState('gray')
     const [conPassText,setconPassText] = useState('')
     const [emailText,setemailText] = useState('')
     const [checkUsername,setCU] = useState(false)
@@ -38,10 +38,10 @@ function Signupcust({ navigation } ) {
         Pass:sha256(Pass),
     }; 
     return(
-        <View style={page.container}>
+        <Linegrad colors={['#7bd5f5','#ffffff']} style={page.container}>
             
 			<Text style={page.title} >
-			HoldMyBike
+			HoldMyRide
 			</Text>
 
             <Text style={page.text} >
@@ -190,7 +190,7 @@ function Signupcust({ navigation } ) {
             </View>
             
 					
-		</View>	
+		</Linegrad>	
     );
 }
 const page = StyleSheet.create({

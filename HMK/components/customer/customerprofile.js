@@ -3,11 +3,11 @@ import * as Keychain from 'react-native-keychain';
 import {ScrollView,View,Text,StyleSheet} from 'react-native'
 import Header from '../bar';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Divider,Input,Button } from 'react-native-elements';
+import { Divider,Input } from 'react-native-elements';
 import firestore from '@react-native-firebase/firestore';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
-
+import LinearGradient from 'react-native-linear-gradient'
+import {Button} from 'react-native-paper'
 let DocID = ''
 
 
@@ -115,7 +115,7 @@ function Profile( {navigation} ) {
         
       };
     return(
-        <View style={page.container}>
+        <LinearGradient colors={['#1ca7ec','#4adede']} start={{x: 0, y: 0}} end={{x: 1, y: 1}} style={page.container}>
             <Header navigation = {navigation}/>
             <ScrollView style={page.box1} >
                 <Text style={page.text1}>ข้อมูลส่วนตัว</Text>
@@ -188,33 +188,33 @@ function Profile( {navigation} ) {
          
                 <Divider style={{ backgroundColor: '#8C7171' }} />
                 <View style={[page.box2,{justifyContent:'space-evenly',margin:20,padding:15}]}>
-                    {edit ? (<Button title="กลับ" containerStyle={{width:100}} onPress={() => navigation.goBack()} >
-
-                    </Button>):(<Button title="ยกเลิก" containerStyle={{width:100}} onPress={() => {
+                    {edit ? (<Button color={'white'}  contentStyle={{width:100,backgroundColor:'#1f2798'}} onPress={() => navigation.goBack()} >
+                    กลับ
+                    </Button>):(<Button color={'white'}  contentStyle={{width:100,backgroundColor:'#1f2798'}} onPress={() => {
                         setData(temp)
                         setThaidate(convertToString(temp.DoB))
                         setEdit(true)
                     }} >
-
+                        ยกเลิก
                     </Button>)}
                    
-                    {edit ? (<Button title="แก้ไข" containerStyle={{width:100}} onPress={() => {
+                    {edit ? (<Button color={'white'} contentStyle={{width:100,backgroundColor:'#1f2798'}} onPress={() => {
                         setTemp(Data)
                         setEdit(false)
                        }}>
-                        
-                        </Button>):(<Button title="เสร็จสื้น" containerStyle={{width:100}} onPress={() => {
+                           แก้ไข
+                        </Button>):(<Button color={'white'} contentStyle={{width:100,backgroundColor:'#1f2798'}} onPress={() => {
                             saveProfile(Data).then(alert("ข้อมูลของคุณได้ถูกเปลี่ยนแปลงแล้ว")).catch(err => console.log(err))
                             setEdit(true)
                             
                             }}>
-                        
+                                เสร็จสื้น
                         </Button>)}
                 </View>
                 
             </ScrollView>
             {show && (<DateTimePicker mode="date" value={Data.DoB != null ? Data.DoB : new Date()} onChange={onChange} />)}
-        </View>
+        </LinearGradient>
 
     )
 }

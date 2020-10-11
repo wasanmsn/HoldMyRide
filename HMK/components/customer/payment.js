@@ -1,13 +1,14 @@
 import React, { useState,useMemo,useEffect } from 'react';
 import { Text, View,StyleSheet, TouchableOpacity,ScrollView } from 'react-native';
-import { Divider,Button } from 'react-native-elements';
+import { Divider } from 'react-native-elements';
 import firestore, { firebase } from '@react-native-firebase/firestore';
 import Header from '../bar';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as Keychain from 'react-native-keychain';
 import firestorage from '@react-native-firebase/storage';
 import { useIsFocused } from '@react-navigation/native'
-import {Card,Dialog,Portal, TextInput} from 'react-native-paper'
+import {Card,Dialog,Portal, TextInput,Button} from 'react-native-paper'
+import  LinearGradient  from 'react-native-linear-gradient'
 
 const defaultImg = '../../img/account.png'
 function currencyFormat(num) {
@@ -90,7 +91,7 @@ function Payments ({navigation}){
     },[isFocused])
     
     return (
-        <View style={page.container}>
+        <LinearGradient colors={['#1ca7ec','#4adede']} start={{x: 0, y: 0}} end={{x: 1, y: 1}} style={page.container}>
             <Header />
             <Card style={{margin:15}}>
                <Card.Title
@@ -106,7 +107,7 @@ function Payments ({navigation}){
                     
                     (<Card key={index} style={{marginVertical:15,flexDirection:'row',justifyContent:'space-between'}}   >
                         <Card.Title
-                            title={`${item.payment_type}`}
+                            title={`${item.payment_type ? item.payment_type : 'ฝากรถ'}`}
                             right={(props) => <Text {...props} style={{color:'grey'}}> {new Date(item.payment_cofirm.seconds*1000).toUTCString()} </Text>}
                         />
                         
@@ -125,8 +126,8 @@ function Payments ({navigation}){
             <Divider />
             <View style={[page.box2,{justifyContent:'space-evenly',margin:20,padding:15}]}>
                 
-                <Button title="กลับ" containerStyle={{width:100}} onPress={() => navigation.goBack()}  />
-                <Button title="เติมเงิน" containerStyle={{width:100}} onPress={showDiag}  />
+                <Button  contentStyle={{width:100,backgroundColor:'#1f2798'}} mode='contained' onPress={() => navigation.goBack()}  >กลับ </Button>
+                <Button  contentStyle={{width:100,backgroundColor:'#1f2798'}} mode='contained' onPress={showDiag}  > เติมเงิน</Button>
                 </View>
             <Portal>
                 <Dialog visible={visible} onDismiss={hidDiag}>
@@ -141,8 +142,8 @@ function Payments ({navigation}){
                         />
                     </Dialog.Content>
                     <Dialog.Actions style={{justifyContent: 'space-around'}} >
-                        <Button contentStyle={{width:75}}  title='ยกเลิก' onPress={hidDiag}></Button>
-                        <Button contentStyle={{width:75}}  title='เติมเงิน' onPress={() => {
+                        <Button contentStyle={{width:100,backgroundColor:'#1f2798'}} mode='contained'  onPress={hidDiag}>ยกเลิก</Button>
+                        <Button contentStyle={{width:100,backgroundColor:'#1f2798'}} mode='contained'   onPress={() => {
                             addMoney(money,wallet).then(async () => {
                                 const id = await AsyncStorage.getItem("ID")
                                 hidDiag()
@@ -150,11 +151,11 @@ function Payments ({navigation}){
                                     setBalance(currencyFormat(await res.data().wallet.get().then(ress => ress.data().balance)))
                                 })
                             })
-                        }}></Button>
+                        }}>เติมเงิน</Button>
                     </Dialog.Actions>
                 </Dialog>                
             </Portal>
-        </View>
+        </LinearGradient>
     )
 }
 const page = StyleSheet.create({

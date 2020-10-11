@@ -10,7 +10,7 @@ import { useIsFocused } from '@react-navigation/native'
 import axios from "axios"
 import Loading from '../../loading'
 import {Card,Surface,Portal,Button, TextInput,Avatar, Divider} from 'react-native-paper'
-
+import LinearGradient from 'react-native-linear-gradient'
 const defaultImg = '../../../img/account.png'
 const geoFire = geofirestore.initializeApp(firestore())
 const geoCollection = geoFire.collection('host')
@@ -99,7 +99,7 @@ export default function parkings({navigation}){
     }
     return (
         
-        <View style={{}}>
+        <LinearGradient colors={['#1ca7ec','#787ff6']} start={{x: 0, y: 0}} end={{x: 1, y: 1}} style={{height:height}}>
             <Header />
             <ScrollView contentContainerStyle={styles.scrollView}
                 refreshControl={
@@ -149,7 +149,7 @@ export default function parkings({navigation}){
                     </Text>
                 </View>
             </ScrollView>
-        </View>
+        </LinearGradient>
     )
 }
 const styles = StyleSheet.create({
