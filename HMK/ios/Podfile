@@ -21,8 +21,8 @@ def flipper_post_install(installer)
   end
 end
 
-target 'HMK' do
-  # Pods for HMK
+target 'HoldMyRideForHost' do
+  # Pods for HoldMyRideForHost
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -56,7 +56,7 @@ target 'HMK' do
 
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
-  target 'HMKTests' do
+  target 'HoldMyRideForHostTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -73,10 +73,10 @@ target 'HMK' do
   end
 end
 
-target 'HMK-tvOS' do
-  # Pods for HMK-tvOS
+target 'HoldMyRideForHost-tvOS' do
+  # Pods for HoldMyRideForHost-tvOS
 
-  target 'HMK-tvOSTests' do
+  target 'HoldMyRideForHost-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end
