@@ -130,7 +130,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.hmk"
+        applicationId "com.holdmyrideforcustomer"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
