@@ -58,7 +58,7 @@
 			goto(id){
 				this.$router.push({
 					name: 'vhost',params:{
-						host_id:id
+						host_id: id
 					}
 				})
 			}

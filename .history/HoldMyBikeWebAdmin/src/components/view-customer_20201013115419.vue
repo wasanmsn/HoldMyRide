@@ -74,6 +74,16 @@
 							<v-list-item-content
 							class="px-2 deep-purple lighten-3"
 							>
+								Gender: {{cust.Gender}}
+							</v-list-item-content>
+							
+						</v-list-item>
+                        <v-list-item
+							class="ma-3  deep-purple lighten-3"	
+						>
+							<v-list-item-content
+							class="px-2 deep-purple lighten-3"
+							>
 								Create Date: {{createDate}}
 							</v-list-item-content>
 							

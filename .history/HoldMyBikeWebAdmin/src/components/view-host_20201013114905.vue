@@ -259,18 +259,13 @@
 					this.$root.$storage.refFromURL(doc.data().houseregis).getDownloadURL().then((url)=> {
 						this.houstImage = url })		
 					this.$root.$storage.refFromURL(doc.data().Idcard).getDownloadURL().then((url)=> {
-						this.idImage = url}) 	
-					this.$root.$storage.refFromURL('gs://holdmybike-998ed.appspot.com/account.png').getDownloadURL().then((url)=> {
-						this.imageUrl = url
-						
-					})				
-				})
-				
+						this.idImage = url}) 					
+                })
             )
         },
          watch:{
             '$route':'fetchData'
-		},
+        },
         methods: {
             suspends(){
                 var suspend = !this.host.Suspend

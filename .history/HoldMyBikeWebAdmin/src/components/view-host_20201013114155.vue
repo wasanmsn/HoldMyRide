@@ -178,7 +178,7 @@
 					<v-list-item-group >
 						<v-list-item>
 							<v-list-item-content>
-								<img height="400px" :src='idImage'>
+								<img height="400px" :src='imageUrl'>
 							</v-list-item-content>
 						</v-list-item>
 					</v-list-item-group>
@@ -193,7 +193,7 @@
 					<v-list-item-group >
 						<v-list-item>
 							<v-list-item-content>
-								<img height="400px" :src='drivingLic'>
+								<img height="400px" :src='imageUrl'>
 							</v-list-item-content>
 						</v-list-item>
 					</v-list-item-group>
@@ -208,7 +208,7 @@
 						<v-list-item-group>
 						<v-list-item>
 							<v-list-item-content>
-								<img height="400px" :src='houstImage'>
+								<img height="400px" :src='imageUrl'>
 							</v-list-item-content>
 						</v-list-item>
 						</v-list-item-group>
@@ -254,29 +254,33 @@
                     this.host = doc.data();
 					this.createDate = new Date(doc.data().createWhen.seconds * 1000)
 					this.birth = new Date(doc.data().DoB.seconds * 1000)
-					this.$root.$storage.refFromURL(doc.data().DriverLic).getDownloadURL().then((url)=> {
-						this.drivingLic = url  })
-					this.$root.$storage.refFromURL(doc.data().houseregis).getDownloadURL().then((url)=> {
-						this.houstImage = url })		
-					this.$root.$storage.refFromURL(doc.data().Idcard).getDownloadURL().then((url)=> {
-						this.idImage = url}) 	
-					this.$root.$storage.refFromURL('gs://holdmybike-998ed.appspot.com/account.png').getDownloadURL().then((url)=> {
-						this.imageUrl = url
-						
-					})				
-				})
-				
+                })
             )
+            this.getImg()
         },
          watch:{
             '$route':'fetchData'
-		},
+        },
         methods: {
             suspends(){
                 var suspend = !this.host.Suspend
                 const refupdate = db.collection('host').doc(this.id)
                 refupdate.update({Suspend:suspend}).then()
             },
+            getImg(){
+				//gs://holdmybike-998ed.appspot.com/7GQINAZrK8suvJywXXvs/drivelicence/7GQINAZrK8suvJywXXvs.jpg
+				//get Driving licenese
+               this.$root.$storage.refFromURL(`gs://holdmybike-998ed.appspot.com/${this.id}/drivelicence/${this.id}`).getDownloadURL().then((url)=> {
+                   this.drivingLic = url  })
+			   //gs://holdmybike-998ed.appspot.com/7GQINAZrK8suvJywXXvs/houseregis/7GQINAZrK8suvJywXXvs.jpg
+			   //get house regis
+               this.$root.$storage.refFromURL(`gs://holdmybike-998ed.appspot.com/${this.id}/houseregis/${this.id}`).getDownloadURL().then((url)=> {
+                   this.houstImage = url })		
+			   //gs://holdmybike-998ed.appspot.com/7GQINAZrK8suvJywXXvs/idcard/7GQINAZrK8suvJywXXvs.jpg
+			   //get idcard
+               this.$root.$storage.refFromURL(`gs://holdmybike-998ed.appspot.com/${this.id}/idcard/${this.id}`).getDownloadURL().then((url)=> {
+                   this.idImage = url}) 
+			},
 			verify(){
                 const refupdate = db.collection('host').doc(this.id)
                 refupdate.update({verified:true}).then(

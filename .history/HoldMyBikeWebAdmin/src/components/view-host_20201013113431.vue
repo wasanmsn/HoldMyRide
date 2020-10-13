@@ -178,7 +178,7 @@
 					<v-list-item-group >
 						<v-list-item>
 							<v-list-item-content>
-								<img height="400px" :src='idImage'>
+								<img height="400px" :src='imageUrl'>
 							</v-list-item-content>
 						</v-list-item>
 					</v-list-item-group>
@@ -193,7 +193,7 @@
 					<v-list-item-group >
 						<v-list-item>
 							<v-list-item-content>
-								<img height="400px" :src='drivingLic'>
+								<img height="400px" :src='imageUrl'>
 							</v-list-item-content>
 						</v-list-item>
 					</v-list-item-group>
@@ -208,7 +208,7 @@
 						<v-list-item-group>
 						<v-list-item>
 							<v-list-item-content>
-								<img height="400px" :src='houstImage'>
+								<img height="400px" :src='imageUrl'>
 							</v-list-item-content>
 						</v-list-item>
 						</v-list-item-group>
@@ -242,43 +242,39 @@
 				imageUrl:null,
 				idImage:null,
 				houstImage:null,
-				drivingLic:null,
+				idCardImage:null,
 				birth:null,
 				id:this.$route.params.host_id
 			}
         },
         created(){ 
-            const refhost = db.collection('host').doc(this.id)
+            const refhost = db.collection('host').doc(id)
             refhost.get().then(
                 (doc =>{
                     this.host = doc.data();
 					this.createDate = new Date(doc.data().createWhen.seconds * 1000)
 					this.birth = new Date(doc.data().DoB.seconds * 1000)
-					this.$root.$storage.refFromURL(doc.data().DriverLic).getDownloadURL().then((url)=> {
-						this.drivingLic = url  })
-					this.$root.$storage.refFromURL(doc.data().houseregis).getDownloadURL().then((url)=> {
-						this.houstImage = url })		
-					this.$root.$storage.refFromURL(doc.data().Idcard).getDownloadURL().then((url)=> {
-						this.idImage = url}) 	
-					this.$root.$storage.refFromURL('gs://holdmybike-998ed.appspot.com/account.png').getDownloadURL().then((url)=> {
-						this.imageUrl = url
-						
-					})				
-				})
-				
+                })
             )
+            this.getImg()
         },
          watch:{
             '$route':'fetchData'
-		},
+        },
         methods: {
             suspends(){
                 var suspend = !this.host.Suspend
-                const refupdate = db.collection('host').doc(this.id)
+                const refupdate = db.collection('host').doc(id)
                 refupdate.update({Suspend:suspend}).then()
             },
+            getImg(){
+               this.$root.$storage.refFromURL('gs://holdmybike-998ed.appspot.com/account.png').getDownloadURL().then((url)=> {
+                   this.imageUrl = url
+                   
+               })
+			},
 			verify(){
-                const refupdate = db.collection('host').doc(this.id)
+                const refupdate = db.collection('host').doc(id)
                 refupdate.update({verified:true}).then(
 					alert("Verification complete!")
 				)

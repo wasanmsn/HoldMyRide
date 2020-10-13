@@ -74,6 +74,16 @@
 							<v-list-item-content
 							class="px-2 deep-purple lighten-3"
 							>
+								Gender: {{cust.Gender}}
+							</v-list-item-content>
+							
+						</v-list-item>
+                        <v-list-item
+							class="ma-3  deep-purple lighten-3"	
+						>
+							<v-list-item-content
+							class="px-2 deep-purple lighten-3"
+							>
 								Create Date: {{createDate}}
 							</v-list-item-content>
 							
@@ -135,11 +145,18 @@
 			this.getCustomer()
 			this.getCar()
 			this.getBike()
+            this.getImg()
         },
          watch:{
             '$route':'fetchData'
         },
         methods: {
+            getImg(){
+               this.$root.$storage.refFromURL('gs://holdmybike-998ed.appspot.com/account.png').getDownloadURL().then((url)=> {
+                   this.imageUrl = url
+                   
+               })
+			},
 			getCustomer(){
 				const refhost = db.collection('customer').doc(this.$route.params.cust_id)
 				refhost.get().then(
@@ -148,10 +165,6 @@
 						this.cust = doc.data()
 						this.createDate = new Date(doc.data().registerDate.seconds * 1000)
 						this.birth = new Date(doc.data().DoB.seconds * 1000)
-						this.$root.$storage.refFromURL(doc.data().imgIcon).getDownloadURL().then((url)=> {
-							this.imageUrl = url
-							
-						})
 					})
 				)
 				

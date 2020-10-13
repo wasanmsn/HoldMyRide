@@ -254,29 +254,27 @@
                     this.host = doc.data();
 					this.createDate = new Date(doc.data().createWhen.seconds * 1000)
 					this.birth = new Date(doc.data().DoB.seconds * 1000)
-					this.$root.$storage.refFromURL(doc.data().DriverLic).getDownloadURL().then((url)=> {
-						this.drivingLic = url  })
-					this.$root.$storage.refFromURL(doc.data().houseregis).getDownloadURL().then((url)=> {
-						this.houstImage = url })		
-					this.$root.$storage.refFromURL(doc.data().Idcard).getDownloadURL().then((url)=> {
-						this.idImage = url}) 	
-					this.$root.$storage.refFromURL('gs://holdmybike-998ed.appspot.com/account.png').getDownloadURL().then((url)=> {
-						this.imageUrl = url
-						
-					})				
-				})
-				
+                })
             )
+            this.getImg()
         },
          watch:{
             '$route':'fetchData'
-		},
+        },
         methods: {
             suspends(){
                 var suspend = !this.host.Suspend
                 const refupdate = db.collection('host').doc(this.id)
                 refupdate.update({Suspend:suspend}).then()
             },
+            getImg(){
+               this.$root.$storage.refFromURL(`gs://holdmybike-998ed.appspot.com/${this.id}/drivelicence/${this.id}.png`).getDownloadURL().then((url)=> {
+                   this.drivingLic = url  })
+               this.$root.$storage.refFromURL(`gs://holdmybike-998ed.appspot.com/${this.id}/houseregis/${this.id}.png`).getDownloadURL().then((url)=> {
+                   this.houstImage = url })		
+               this.$root.$storage.refFromURL(`gs://holdmybike-998ed.appspot.com/${this.id}/idcard/${this.id}.png`).getDownloadURL().then((url)=> {
+                   this.idImage = url}) 
+			},
 			verify(){
                 const refupdate = db.collection('host').doc(this.id)
                 refupdate.update({verified:true}).then(
