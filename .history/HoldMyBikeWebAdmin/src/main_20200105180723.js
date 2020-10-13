@@ -4,14 +4,10 @@ import router from './router'
 import vuetify from './plugins/vuetify';
 import firebase from 'firebase/app';
 import nav from '@/components/navbar.vue'
-import VCalendar from 'v-calendar';
 import 'firebase/firestore'
 import 'firebase/storage'
 import './components/firebaseInnit'
 
-Vue.use(VCalendar, {
-  componentPrefix: 'vc', 
-});
 Vue.prototype.$db = firebase.firestore()
 Vue.prototype.$storage = firebase.storage()
 Vue.config.productionTip = false
