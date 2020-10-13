@@ -4,7 +4,7 @@ import  { AuthContext }  from '../routes/stacks';
 import Lingrad from 'react-native-linear-gradient'
 
 var sha256 = require('js-sha256').sha256;
-var logo = '../assets/holdmyride-logo.png'
+
 function Login({ navigation }){
 	const [text,setText] = useState('');
 	const [pass,setPass] = useState('');
@@ -20,9 +20,9 @@ function Login({ navigation }){
 
 	return (
 		<Lingrad colors={['#7bd5f5','#ffffff']}  style={page.container}>
-			<View style={{marginBottom:20,bottom:50}}>
-				<Image source={require(logo)} style={{height:90,width:250}}  />
-			</View>
+			<Text style={page.title} >
+			HoldMyRide
+			</Text>
 
 			<TextInput placeholder="Username"
 			style={[page.box,{borderColor:BorderColor}]}

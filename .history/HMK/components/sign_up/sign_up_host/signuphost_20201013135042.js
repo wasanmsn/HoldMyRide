@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button , TextInput, ScrollView} from 'react-nat
 import firestore from '@react-native-firebase/firestore';
 import Linegrad from 'react-native-linear-gradient'
 var sha256 = require('js-sha256').sha256;
-var logo = '../../../assets/holdmyride-logo.png'
+
 function Siguphost({navigation}) {
     const [ Username ,setUsername]= useState('');
     const [Pass,setPass]= useState('');
@@ -35,9 +35,9 @@ function Siguphost({navigation}) {
     
     return(
         <Linegrad colors={['#7bd5f5','#ffffff']} style={page.container}>
-            <View style={{marginBottom:20,top:20}}>
-				<Image source={require(logo)} style={{height:90,width:250}}  />
-			</View>
+			<Text style={page.title} >
+			HoldMyRide
+			</Text>
             <Text style={page.text} >
 			สำหรับโฮสต์
 			</Text>
