@@ -110,7 +110,7 @@ function Payments ({navigation}){
                         
                         <Card.Content>
                                 
-                                <Text style={{color: item.payment_type == 'ฝากรถ' || item.method == 'rent_expired' ? 'red' : 'green',fontSize:15,alignSelf:'flex-end'}}>
+                                <Text style={{color: item.payment_type == 'ฝากรถ' ? 'red' : 'green',fontSize:15,alignSelf:'flex-end'}}>
                                     {item.payment_type == 'ฝากรถ' ? '-' : '+'} {currencyFormat(item.price)} บาท
                                 </Text>
                         </Card.Content>

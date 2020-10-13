@@ -67,7 +67,9 @@ function Payments ({navigation}){
                     })
                 })
                 await firestore().collection('customer').doc(id).get().then(async res => {
+                    console.log(res.data().wallet)
                     setWallet(res.data().wallet)
+                    console.log((await res.data().wallet.get().then(ress => ress.data().customer)))
                     setBalance(currencyFormat(await res.data().wallet.get().then(ress => ress.data().balance)))
                 })
             } catch (error) {
@@ -110,7 +112,7 @@ function Payments ({navigation}){
                         
                         <Card.Content>
                                 
-                                <Text style={{color: item.payment_type == 'ฝากรถ' || item.method == 'rent_expired' ? 'red' : 'green',fontSize:15,alignSelf:'flex-end'}}>
+                                <Text style={{color: item.payment_type == 'ฝากรถ' ? item.method == 'rent_expired' ? 'red' : 'green',fontSize:15,alignSelf:'flex-end'}}>
                                     {item.payment_type == 'ฝากรถ' ? '-' : '+'} {currencyFormat(item.price)} บาท
                                 </Text>
                         </Card.Content>

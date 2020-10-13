@@ -5,14 +5,47 @@ import { StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import firestore, { firebase } from '@react-native-firebase/firestore';
 import { NavigationContainer } from '@react-navigation/native';
+
 import Loading from '../components/loading';
 import CustomerStack from './customerStack';
-import HostStack from './hostStack';
 import SignupStacks from './signupStacks';
+
+
 
 //var geohash = require('ngeohash');
 const AuthContext = createContext();
 const Stack = createStackNavigator();
+
+async function uploadImage(uri,ID,name){
+    // Why are we using XMLHttpRequest? See:
+  // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+
+  const blob = await new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+      resolve(xhr.response);
+    };
+    xhr.onerror = function(e) {
+      console.log(e);
+      reject(new TypeError('Network request failed'));
+    };
+    xhr.responseType = 'blob';
+    xhr.open('GET', uri, true);
+    xhr.send(null);
+  });
+
+  const ref = firebase
+    .storage()
+    .ref()
+    .child(`${ID}/${name}/${ID}.jpg`);
+  const snapshot = await ref.put(blob);
+
+  // We're done with the blob, close and release it
+  blob.close();
+  return 
+  
+}
+
 function createStack(){
 	const [isLoading,setIsLoading] = useState(true)
 	const [userToken,setUserToken] = useState(null)
@@ -20,7 +53,6 @@ function createStack(){
 	const auth = React.useMemo(() => {
 		return{
 			signIn: async Data =>{
-						
 				await firestore().
 				collection(Data.type)
 				.where("UserName", "==", Data.username).where("Pass","==",Data.pass)
@@ -47,6 +79,7 @@ function createStack(){
 				
 			},
 			signUpCust: async signUpData  =>{
+
 				const stringData = JSON.stringify({
 					type:'customer',
 					username:signUpData.UserName,
@@ -54,77 +87,32 @@ function createStack(){
 					await firestore().collection('customer').add({  
 						UserName:signUpData.UserName,
 						Email:signUpData.Email,
-						Name:'',
-						Gender:'',
+						Name:signUpData.UserName,
 						Age:null,
 						DoB:null,
-						Pid:'',
-						PhoneN:'',
-						Religion:'',
-						Address:'',
-						Province:'',
-						PostalCode:'',
-						Pass:signUpData.Pass,
-						Country:'',
-						SubDist_Dist:'',
-						Road:'',     
+						Pass:signUpData.Pass,   
 						registerDate:firestore.Timestamp.now(),
 						imgIcon:'gs://holdmybike-998ed.appspot.com/account.png', 
-						Location:''
-					}).then( async () => {
+						Location:'',
+						wallet:'',
+					}).then( async (res) => {
 						try{
-							await Keychain.setGenericPassword(stringData.username, stringData.pass);
+							await firestore().collection('wallet').add({
+								balance:0.00,
+								owner:firestore().doc('customer/'+res.id)
+							}).then(async (ress) => {
+								await firestore().collection('customer').doc(res.id).update({wallet:firestore().doc('wallet/'+ress.id)})
+							})
+							await Keychain.setGenericPassword(signUpData.UserName, signUpData.Pass);
 							setUserToken('customer')
 							await AsyncStorage.setItem("Type",'customer');
-							setIsLoading(false);
+							setIsLoading(false)
 						  }
 						  catch(err){
 							console.log("Some thing is not right :",err.message);
 						  }
 					})
-				
-			},signUpHost: async signUpData  =>{
-				const stringData = JSON.stringify({
-					type:'host',
-					username:signUpData.UserName,
-					pass:signUpData.Pass })
-					await firestore().collection('host').add({  
-						UserName:signUpData.UserName,
-						email:signUpData.Email,
-						name:'',
-						gender:'',
-						age:null,
-						DoB:'',
-						Pid:'',
-						PhoneN:'',
-						religion:'',
-						Address:'',
-						Province:'',
-						postalcode:'',
-						Pass:signUpData.Pass,
-						Country:'',     
-						createWhen:firestore.Timestamp.now(),
-						imgIcon:'gs://holdmybike-998ed.appspot.com/account.png', 
-						houseLocation:null,
-						houseregis:'',
-						Suspend:false,
-						parkingspace:'',
-						verified:false,
-						selimg:'',
-						SubDist_Dist:'',
-						Road:'',
-					}).then( async () => {
-						try{
-							await Keychain.setGenericPassword(signUpData.UserName, signUpData.Pass);
-							setUserToken('host')
-							await AsyncStorage.setItem("Type",'host');
-							setIsLoading(false);
-						  }
-						  catch(err){
-							console.log("Some thing is not right :",err.message);
-							return
-						  }
-					})
+					
 				
 			},
 			signOut: async () =>{
@@ -135,9 +123,10 @@ function createStack(){
 				  catch(err){
 					console.log("Some thing is not right :",err.message);
 				  }
-				setUserToken(null);
 				await AsyncStorage.removeItem("Type")
 				await AsyncStorage.removeItem("ID")
+				setUserToken(null);
+				
 			}
 		}
 
@@ -153,15 +142,19 @@ function createStack(){
 					pass:credentials.password,
 					type:Type
 				}
-				if(credentials.username){
+				if(credentials.username && Type){
 					auth.signIn(data)
+
+				}
+				else{
+					setIsLoading(false)
 				}
 				
 				
 			} catch (error) {
 				console.log("Keychain couldn't be accessed!", error);	
 			}
-			setIsLoading(false);
+			
 		}, 1000);
 	})
 	if(isLoading){
@@ -175,26 +168,17 @@ function createStack(){
 											<Stack.Screen name = "SignupStacks" component= {SignupStacks} 
 												options={{
 													headerShown: false
+													
 												}}
 											/>
 									</Stack.Navigator>) 
 									: (<Stack.Navigator 
-			
 										>
-											{ userToken == "customer" ?  (
 												<Stack.Screen name = "CustomerStack" component= {CustomerStack}
-												options={{
-													headerShown: false
-												}}
-										
-											/>):(
-												<Stack.Screen name= "HostStack" component = {HostStack}
-												options={{
-													headerShown: false
-												}}/>
-											)}
-									
-								
+													options={{
+														headerShown: false
+													}}
+													/>
 									</Stack.Navigator>)}
 			
 			</NavigationContainer>

@@ -87,20 +87,10 @@ function createStack(){
 					await firestore().collection('customer').add({  
 						UserName:signUpData.UserName,
 						Email:signUpData.Email,
-						Name:'',
-						Gender:'',
+						Name:signUpData.UserName,
 						Age:null,
 						DoB:null,
-						Pid:'',
-						PhoneN:'',
-						Religion:'',
-						Address:'',
-						Province:'',
-						PostalCode:'',
-						Pass:signUpData.Pass,
-						Country:'',
-						SubDist_Dist:'',
-						Road:'',     
+						Pass:signUpData.Pass,   
 						registerDate:firestore.Timestamp.now(),
 						imgIcon:'gs://holdmybike-998ed.appspot.com/account.png', 
 						Location:'',
@@ -111,7 +101,7 @@ function createStack(){
 								balance:0.00,
 								owner:firestore().doc('customer/'+res.id)
 							}).then(async (ress) => {
-								await firestore().collection('customer').doc(res.id).update({wallet:firestore().doc('customer/'+ress.id)})
+								await firestore().collection('customer').doc(res.id).update({wallet:firestore().doc('wallet/'+ress.id)})
 							})
 							await Keychain.setGenericPassword(signUpData.UserName, signUpData.Pass);
 							setUserToken('customer')
