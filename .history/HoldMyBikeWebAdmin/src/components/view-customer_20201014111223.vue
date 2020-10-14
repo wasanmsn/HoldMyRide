@@ -136,8 +136,8 @@
 					( doc =>{
 						console.log(doc.data())
 						this.cust = doc.data()
-						this.createDate = doc.data().registerDate ? new Date(doc.data().registerDate.seconds * 1000) :new Date()
-						this.birth = doc.data().DoB ?  new Date(doc.data().DoB.seconds * 1000) : new Date()
+						this.createDate = new Date(doc.data().registerDate.seconds * 1000) ? new Date(doc.data().registerDate.seconds * 1000) : 0
+						this.birth = new Date(doc.data().DoB.seconds * 1000) ?  new Date(doc.data().DoB.seconds * 1000) : 0
 						this.$root.$storage.refFromURL(doc.data().imgIcon).getDownloadURL().then((url)=> {
 							this.imageUrl = url
 							

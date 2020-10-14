@@ -304,8 +304,7 @@
 
 <script>
     import db from './firebaseInnit'
-    import firebase from 'firebase/app'
-	import 'firebase/firestore'
+    
 	export default{
 		
 		name: 'view-host',
@@ -352,8 +351,6 @@
 
 			},
 			edit(){
-				var date = new Date(this.birth)
-				this.host.DoB = new firebase.firestore.Timestamp.fromMillis(date.getMilliseconds())
 				const refupdate = db.collection('host').doc(this.id)
                 refupdate.update(this.host).then(() => {
 					alert('ทำการอัพเดทข้อมูลแล้ว')

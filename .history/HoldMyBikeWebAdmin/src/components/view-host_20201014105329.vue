@@ -5,35 +5,9 @@
                 <v-list flat class="deep-purple lighten-1">
                     <v-subheader class="ma-2">               
                             <img width="80" height="80" :src='imageUrl'>
-                            <p class="mx-4 mt-12" style="font-size:20px;">{{host.UserName}}</p>
+                            <p class="mx-4 mt-12" style="font-size:20px;">{{host.name}}</p>
                     </v-subheader>
 					<v-list-item-group >
-						<v-list-item
-							class="ma-3  deep-purple lighten-3"	
-						>
-							<v-list-item-content
-							class="px-2 deep-purple lighten-3"
-							>
-								<v-text-field
-									v-model="host.name"
-									label="ชื่อ"
-								></v-text-field>
-							</v-list-item-content>
-							
-						</v-list-item>
-						<v-list-item
-							class="ma-3  deep-purple lighten-3"	
-						>
-							<v-list-item-content
-							class="px-2 deep-purple lighten-3"
-							>
-								<v-text-field
-									v-model="host.Pid"
-									label="รหัสบัตรประจำตัวประชาชน"
-								></v-text-field>
-							</v-list-item-content>
-							
-						</v-list-item>												
 						<v-list-item
 							class="ma-3  deep-purple lighten-3"	
 						>
@@ -304,8 +278,7 @@
 
 <script>
     import db from './firebaseInnit'
-    import firebase from 'firebase/app'
-	import 'firebase/firestore'
+    
 	export default{
 		
 		name: 'view-host',
@@ -352,8 +325,6 @@
 
 			},
 			edit(){
-				var date = new Date(this.birth)
-				this.host.DoB = new firebase.firestore.Timestamp.fromMillis(date.getMilliseconds())
 				const refupdate = db.collection('host').doc(this.id)
                 refupdate.update(this.host).then(() => {
 					alert('ทำการอัพเดทข้อมูลแล้ว')

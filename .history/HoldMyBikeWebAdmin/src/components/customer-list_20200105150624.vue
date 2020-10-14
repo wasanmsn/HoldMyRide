@@ -2,21 +2,21 @@
 	<v-container grid-list-xs>
 		<v-layout row wrap>
 			<v-flex xs12>
-				<h1 class="text-center">Hosts waiting for verification</h1>
+				<h1 class="text-center">Customers</h1>
 			</v-flex>
 			<v-flex xs12>
 				<v-list flat class="deep-purple lighten-3">
 					<v-list-item-group class="">
 						<v-list-item
 							class="ma-3  deep-purple lighten-1"
-							v-for="(host,i) in hosts"
+							v-for="(cust,i) in custs"
 							:key="i"
-							@click="goto(host.id)"
+							@click="goto(cust.id)"
 						>
 							<v-list-item-content
 							class="px-2 deep-purple lighten-1"
 							
-								v-text="host.host_name"
+								v-text="cust.cust_name"
 							>
 								
 							</v-list-item-content>
@@ -36,21 +36,21 @@
 	import db from "./firebaseInnit.js"
 
 	export default{
-		name: 'hostlist',
+		name: 'customerlist',
 		data(){
 			return {
-				hosts:[]
+				custs:[]
 			}
 		},
 		created () {
-			db.collection('host').where('verified','==',false).get().then(
+			db.collection('customer').get().then(
 				querySnapshot => {
 					querySnapshot.forEach(doc => {
 						const data = {
 							'id': doc.id,
-							'host_name':doc.data().UserName,
+							'cust_name':doc.data().Name,
 						}
-						this.hosts.push(data)
+						this.custs.push(data)
 					})
 				}
 			)
@@ -58,8 +58,8 @@
 		methods: {
 			goto(id){
 				this.$router.push({
-					name: 'vhost',params:{
-						host_id: id
+					name: 'customerview',params:{
+						cust_id: id
 					}
 				})
 			}

@@ -353,7 +353,7 @@
 			},
 			edit(){
 				var date = new Date(this.birth)
-				this.host.DoB = new firebase.firestore.Timestamp.fromMillis(date.getMilliseconds())
+				this.host.DoB = new firebase.firestore.Timestamp(date)
 				const refupdate = db.collection('host').doc(this.id)
                 refupdate.update(this.host).then(() => {
 					alert('ทำการอัพเดทข้อมูลแล้ว')

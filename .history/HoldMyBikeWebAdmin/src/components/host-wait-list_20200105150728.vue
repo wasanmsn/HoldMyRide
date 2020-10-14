@@ -48,7 +48,7 @@
 					querySnapshot.forEach(doc => {
 						const data = {
 							'id': doc.id,
-							'host_name':doc.data().UserName,
+							'host_name':doc.data().name,
 						}
 						this.hosts.push(data)
 					})
