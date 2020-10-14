@@ -326,9 +326,7 @@
 			},
 			edit(){
 				const refupdate = db.collection('host').doc(this.id)
-                refupdate.update(this.host).then(() => {
-					alert('ทำการอัพเดทข้อมูลแล้ว')
-				})
+                refupdate.update(this.host).then()
 			},
 			verify(){
 				this.host.verified = !this.host.verified

@@ -266,7 +266,6 @@
             <v-btn v-if="host.Suspend" @click="suspends" class="red">Suspend</v-btn>
             <v-btn v-else @click="suspends" class="green">Not Suspend</v-btn>
 			<v-btn  v-show="!host.verified" @click="verify" class="green" style="right:-5px;">Verify</v-btn>
-			<v-btn  @click="edit" class="green" style="right:-5px;">Update</v-btn>
             
         </v-flex>
        
@@ -321,17 +320,15 @@
 		},
         methods: {
             suspends(){
-                this.host.Suspend = !this.host.Suspend
-
-			},
-			edit(){
-				const refupdate = db.collection('host').doc(this.id)
-                refupdate.update(this.host).then(() => {
-					alert('ทำการอัพเดทข้อมูลแล้ว')
-				})
-			},
+                var suspend = !this.host.Suspend
+                const refupdate = db.collection('host').doc(this.id)
+                refupdate.update({Suspend:suspend}).then()
+            },
 			verify(){
-				this.host.verified = !this.host.verified
+                const refupdate = db.collection('host').doc(this.id)
+                refupdate.update({verified:true}).then(
+					alert("Verification complete!")
+				)
             },
             
         },

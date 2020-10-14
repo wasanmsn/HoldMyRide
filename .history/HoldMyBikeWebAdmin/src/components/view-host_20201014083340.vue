@@ -17,24 +17,11 @@
 							<v-list-item-content
 							class="px-2 deep-purple lighten-3"
 							>
-							<v-row>
-								<v-col
-									cols="12"
-									sm="6"
-									md="8">วันเกิด: {{birth.toLocaleDateString('th-TH',{
-										year: 'numeric',
-										month: 'long',
-										day: 'numeric',
-										weekday: 'long',
-								})}}</v-col>
-								<v-col cols="6" md="4"><v-icon large color="black">
-									mdi-calendar
-								</v-icon></v-col>
-								
-							</v-row>
-
+								Date of birth: {{birth}}
 							</v-list-item-content>
-
+							<v-icon large color="dark">
+								mdi-calendar
+							</v-icon>
 						</vc-date-picker>
 
 							
@@ -45,10 +32,7 @@
 							<v-list-item-content
 							class="px-2 deep-purple lighten-3"
 							>
-								<v-text-field
-									v-model="host.Address"
-									label="ที่อยู่"
-								></v-text-field>
+								Address: {{host.Address}}
 							</v-list-item-content>
 							
 						</v-list-item>
@@ -58,11 +42,7 @@
 							<v-list-item-content
 							class="px-2 deep-purple lighten-3"
 							>
-								<v-text-field
-									v-model="host.Province"
-									counter="25"
-									label="จังหวัด"
-								></v-text-field>
+								Province: {{host.Province}}
 							</v-list-item-content>
 							
 						</v-list-item>
@@ -72,11 +52,7 @@
 							<v-list-item-content
 							class="px-2 deep-purple lighten-3"
 							>
-								<v-text-field
-									v-model="host.postalcode"
-									counter="25"
-									label="รหัสไปรษณีย์"
-								></v-text-field>
+								Country: {{host.Country}}
 							</v-list-item-content>
 							
 						</v-list-item>
@@ -86,11 +62,7 @@
 							<v-list-item-content
 							class="px-2 deep-purple lighten-3"
 							>
-								<v-text-field
-									v-model="host.Country"
-									counter="25"
-									label="ประเทศ"
-								></v-text-field>
+								Postal Code: {{host.postalcode}}
 							</v-list-item-content>
 							
 						</v-list-item>
@@ -110,11 +82,7 @@
 							<v-list-item-content
 							class="px-2 deep-purple lighten-3"
 							>
-								<v-text-field
-									v-model="host.religion"
-									counter="25"
-									label="ศาสนา"
-								></v-text-field>
+								Religion: {{host.religion}}
 							</v-list-item-content>
 							
 						</v-list-item>
@@ -124,12 +92,17 @@
 							<v-list-item-content
 							class="px-2 deep-purple lighten-3"
 							>
-								<v-text-field
-									v-model="host.age"
-									counter="25"
-									label="อายุ"
-									type="number"
-								></v-text-field>							
+								Phone Number: {{host.PhoneN}}
+							</v-list-item-content>
+							
+						</v-list-item>
+						<v-list-item
+							class="ma-3  deep-purple lighten-3"	
+						>
+							<v-list-item-content
+							class="px-2 deep-purple lighten-3"
+							>
+								Age: {{host.age}}
 							</v-list-item-content>
 							
 						</v-list-item>
@@ -139,12 +112,7 @@
 							<v-list-item-content
 							class="px-2 deep-purple lighten-3"
 							>
-								<v-select
-								:items="genders"
-								v-model="host.gender"
-								label="เพศ"
-								solo
-								></v-select>						
+								Gender: {{host.gender}}
 							</v-list-item-content>
 							
 						</v-list-item>
@@ -164,7 +132,7 @@
 							<v-list-item-content
 							class="px-2 deep-purple lighten-3"
 							>
-								ยืนยัน <span v-if="host.verified" class="font-weight-bold green--text">VERIFIED</span> <span v-else class="font-weight-bold red--text">NOT VERIFIED</span>
+								Verification <span v-if="host.verified" class="font-weight-bold green--text">VERIFIED</span> <span v-else class="font-weight-bold red--text">NOT VERIFIED</span>
 							</v-list-item-content>
 							
 						</v-list-item>
@@ -174,12 +142,7 @@
 							<v-list-item-content
 							class="px-2 deep-purple lighten-3"
 							>
-								วันสมัคร: {{createDate.toLocaleDateString('th-TH',{
-										year: 'numeric',
-										month: 'long',
-										day: 'numeric',
-										weekday: 'long',
-								})}}
+								Create Date: {{createDate}}
 							</v-list-item-content>
 							
 						</v-list-item>
@@ -191,7 +154,7 @@
             <v-flex xs12 class="my-3">
                 <v-list flat class="deep-purple lighten-1">
                     <v-subheader class="ma-2">               
-                            <h1 class="mx-4 mt-12" >โรงรถ </h1>
+                            <h1 class="mx-4 mt-12" > Host's parking lot </h1>
                     </v-subheader>
 					<v-list-item-group >
 							<v-list-item
@@ -199,7 +162,7 @@
 							<v-list-item-content
 							class="px-2 deep-purple lighten-3"
 							>
-								พื้นที่จอด: {{host.parkingspace}}
+								Parking space: {{host.parkingspace}}
 							</v-list-item-content>
 							
 						</v-list-item>
@@ -208,7 +171,7 @@
 							<v-list-item-content
 							class="px-2 deep-purple lighten-3"
 							>
-								จำนวนรถที่จอด: {{host.vehicles}}
+								Total carparked: {{host.vehicles}}
 							</v-list-item-content>
 							
 						</v-list-item>
@@ -218,7 +181,7 @@
 			<v-flex xs12 class="my-3">
                 <v-list flat class="deep-purple lighten-1">
                     <v-subheader class="ma-2">               
-                            <h1 class="mx-4 mt-12" > บัตรประชาชน </h1>
+                            <h1 class="mx-4 mt-12" > Host's identification </h1>
                     </v-subheader>
 					<v-list-item-group >
 						<v-list-item>
@@ -233,7 +196,7 @@
 			<v-flex xs12 class="my-3">
                 <v-list flat class="deep-purple lighten-1">
                     <v-subheader class="ma-2">               
-                            <h1 class="mx-4 mt-12" > ใบขับขี่ </h1>
+                            <h1 class="mx-4 mt-12" > Host's driver license </h1>
                     </v-subheader>
 					<v-list-item-group >
 						<v-list-item>
@@ -248,7 +211,7 @@
 			<v-flex xs12 class="my-3">
                 <v-list flat class="deep-purple lighten-1">
                     <v-subheader class="ma-2">               
-                            <h1 class="mx-4 mt-12" >ทะเบียนบ้าน </h1>
+                            <h1 class="mx-4 mt-12" > Host's house registration </h1>
                     </v-subheader>
 						<v-list-item-group>
 						<v-list-item>
@@ -266,7 +229,6 @@
             <v-btn v-if="host.Suspend" @click="suspends" class="red">Suspend</v-btn>
             <v-btn v-else @click="suspends" class="green">Not Suspend</v-btn>
 			<v-btn  v-show="!host.verified" @click="verify" class="green" style="right:-5px;">Verify</v-btn>
-			<v-btn  @click="edit" class="green" style="right:-5px;">Update</v-btn>
             
         </v-flex>
        
@@ -280,7 +242,6 @@
     import db from './firebaseInnit'
     
 	export default{
-		
 		name: 'view-host',
 		data(){
 			return {
@@ -291,8 +252,7 @@
 				houstImage:null,
 				drivingLic:null,
 				birth:null,
-				id:this.$route.params.host_id,
-				genders:['เพศหญิง','เพศชาย']
+				id:this.$route.params.host_id
 			}
         },
         created(){ 
@@ -321,17 +281,15 @@
 		},
         methods: {
             suspends(){
-                this.host.Suspend = !this.host.Suspend
-
-			},
-			edit(){
-				const refupdate = db.collection('host').doc(this.id)
-                refupdate.update(this.host).then(() => {
-					alert('ทำการอัพเดทข้อมูลแล้ว')
-				})
-			},
+                var suspend = !this.host.Suspend
+                const refupdate = db.collection('host').doc(this.id)
+                refupdate.update({Suspend:suspend}).then()
+            },
 			verify(){
-				this.host.verified = !this.host.verified
+                const refupdate = db.collection('host').doc(this.id)
+                refupdate.update({verified:true}).then(
+					alert("Verification complete!")
+				)
             },
             
         },

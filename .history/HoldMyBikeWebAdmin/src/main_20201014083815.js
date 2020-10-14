@@ -8,7 +8,7 @@ import VCalendar from 'v-calendar';
 import 'firebase/firestore'
 import 'firebase/storage'
 import './components/firebaseInnit'
-
+import VueGridLayout from 'vue-grid-layout';
 
 
 Vue.use(VCalendar, {

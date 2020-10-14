@@ -2,7 +2,7 @@
 	<v-container grid-list-xs>
 		<v-layout row wrap>
 			<v-flex xs12>
-				<h1 class="text-center">ตั้งค่าราคา</h1>
+				<h1 class="text-center">ตั่งค่าราคา</h1>
 			</v-flex>
 			<v-flex xs12 class="px-2  deep-purple lighten-4"
               

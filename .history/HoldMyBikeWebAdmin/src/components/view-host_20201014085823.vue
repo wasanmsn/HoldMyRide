@@ -164,7 +164,7 @@
 							<v-list-item-content
 							class="px-2 deep-purple lighten-3"
 							>
-								ยืนยัน <span v-if="host.verified" class="font-weight-bold green--text">VERIFIED</span> <span v-else class="font-weight-bold red--text">NOT VERIFIED</span>
+								Verification <span v-if="host.verified" class="font-weight-bold green--text">VERIFIED</span> <span v-else class="font-weight-bold red--text">NOT VERIFIED</span>
 							</v-list-item-content>
 							
 						</v-list-item>
@@ -174,7 +174,7 @@
 							<v-list-item-content
 							class="px-2 deep-purple lighten-3"
 							>
-								วันสมัคร: {{createDate.toLocaleDateString('th-TH',{
+								Create Date: {{createDate.toLocaleDateString('th-TH',{
 										year: 'numeric',
 										month: 'long',
 										day: 'numeric',
@@ -191,7 +191,7 @@
             <v-flex xs12 class="my-3">
                 <v-list flat class="deep-purple lighten-1">
                     <v-subheader class="ma-2">               
-                            <h1 class="mx-4 mt-12" >โรงรถ </h1>
+                            <h1 class="mx-4 mt-12" > Host's parking lot </h1>
                     </v-subheader>
 					<v-list-item-group >
 							<v-list-item
@@ -199,7 +199,7 @@
 							<v-list-item-content
 							class="px-2 deep-purple lighten-3"
 							>
-								พื้นที่จอด: {{host.parkingspace}}
+								Parking space: {{host.parkingspace}}
 							</v-list-item-content>
 							
 						</v-list-item>
@@ -208,7 +208,7 @@
 							<v-list-item-content
 							class="px-2 deep-purple lighten-3"
 							>
-								จำนวนรถที่จอด: {{host.vehicles}}
+								Total carparked: {{host.vehicles}}
 							</v-list-item-content>
 							
 						</v-list-item>
@@ -218,7 +218,7 @@
 			<v-flex xs12 class="my-3">
                 <v-list flat class="deep-purple lighten-1">
                     <v-subheader class="ma-2">               
-                            <h1 class="mx-4 mt-12" > บัตรประชาชน </h1>
+                            <h1 class="mx-4 mt-12" > Host's identification </h1>
                     </v-subheader>
 					<v-list-item-group >
 						<v-list-item>
@@ -233,7 +233,7 @@
 			<v-flex xs12 class="my-3">
                 <v-list flat class="deep-purple lighten-1">
                     <v-subheader class="ma-2">               
-                            <h1 class="mx-4 mt-12" > ใบขับขี่ </h1>
+                            <h1 class="mx-4 mt-12" > Host's driver license </h1>
                     </v-subheader>
 					<v-list-item-group >
 						<v-list-item>
@@ -248,7 +248,7 @@
 			<v-flex xs12 class="my-3">
                 <v-list flat class="deep-purple lighten-1">
                     <v-subheader class="ma-2">               
-                            <h1 class="mx-4 mt-12" >ทะเบียนบ้าน </h1>
+                            <h1 class="mx-4 mt-12" > Host's house registration </h1>
                     </v-subheader>
 						<v-list-item-group>
 						<v-list-item>
@@ -266,7 +266,6 @@
             <v-btn v-if="host.Suspend" @click="suspends" class="red">Suspend</v-btn>
             <v-btn v-else @click="suspends" class="green">Not Suspend</v-btn>
 			<v-btn  v-show="!host.verified" @click="verify" class="green" style="right:-5px;">Verify</v-btn>
-			<v-btn  @click="edit" class="green" style="right:-5px;">Update</v-btn>
             
         </v-flex>
        
@@ -321,17 +320,15 @@
 		},
         methods: {
             suspends(){
-                this.host.Suspend = !this.host.Suspend
-
-			},
-			edit(){
-				const refupdate = db.collection('host').doc(this.id)
-                refupdate.update(this.host).then(() => {
-					alert('ทำการอัพเดทข้อมูลแล้ว')
-				})
-			},
+                var suspend = !this.host.Suspend
+                const refupdate = db.collection('host').doc(this.id)
+                refupdate.update({Suspend:suspend}).then()
+            },
 			verify(){
-				this.host.verified = !this.host.verified
+                const refupdate = db.collection('host').doc(this.id)
+                refupdate.update({verified:true}).then(
+					alert("Verification complete!")
+				)
             },
             
         },

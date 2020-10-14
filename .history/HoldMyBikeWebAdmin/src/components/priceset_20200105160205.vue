@@ -2,13 +2,13 @@
 	<v-container grid-list-xs>
 		<v-layout row wrap>
 			<v-flex xs12>
-				<h1 class="text-center">ตั้งค่าราคา</h1>
+				<h1 class="text-center">Price Setting</h1>
 			</v-flex>
 			<v-flex xs12 class="px-2  deep-purple lighten-4"
               
             >
-                <h2> บริการรับส่ง </h2>
-                                <v-subheader>กิโลเริ่มต้น</v-subheader>
+                <h2> Pick up service </h2>
+                                <v-subheader>First n kilometers</v-subheader>
                                 <v-text-field
                                     
                                     label="Amount"
@@ -17,7 +17,7 @@
                                     type="number"
                                     :readonly="!edit"
                                 ></v-text-field>
-                                <v-subheader>เริ่มที่ {{prices.drk}} กิโลเมตร</v-subheader>
+                                <v-subheader>Pick up price first {{prices.drk}} kilometers</v-subheader>
                                 <v-text-field
                                     
                                     label="Amount"
@@ -26,7 +26,7 @@
                                     type="number"
                                     :readonly="!edit"
                                 ></v-text-field>
-                                 <v-subheader>ราคาคิดหลังจาก {{prices.drk}} กิโลเมตร</v-subheader>
+                                 <v-subheader>Pick up price more than {{prices.drk}} kilometers</v-subheader>
                                 <v-text-field
                                     
                                     label="Amount"
@@ -37,8 +37,8 @@
                                 ></v-text-field>           
 			</v-flex>
             <v-flex xs12 class = "my-4 px-2 py-5 deep-purple lighten-4" >
-                <h2> ราคาฝาก </h2>
-                                <v-subheader>รถยนต์ </v-subheader>
+                <h2> Rental service </h2>
+                                <v-subheader>Car </v-subheader>
                                 <v-text-field
                                     
                                     label="Amount"
@@ -47,7 +47,7 @@
                                     type="number"
                                     :readonly="!edit"
                                 ></v-text-field>
-                                 <v-subheader>มอเตอร์ไซต์</v-subheader>
+                                 <v-subheader>Bike</v-subheader>
                                 <v-text-field
                                     
                                     label="Amount"
