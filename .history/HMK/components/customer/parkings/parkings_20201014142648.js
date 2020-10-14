@@ -130,6 +130,10 @@ export default function parkings({navigation}){
                     </Card>))}
                         
                 </View>
+                <Text>
+                    {data[1]?data[1].UserName  : '55' }
+                </Text>
+
                 <View style={{backgroundColor:'#121211'}}>
                     <Text style={{alignSelf:'center',color:'white'}}>
                         เลื่อนค้างลงเพื่อ รีเฟรช

@@ -20,7 +20,12 @@ const { width,height } = Dimensions.get('window');
 
 export default function parkings({navigation}){
 
-    const [data,setData] = React.useState([])
+    const [data,setData] = React.useState([{
+        UserName:'',
+        vehicles:0,
+        parkingspace:0,
+        distancematrix:{distance:{text:'0'}}
+    }])
     const [coord,setCord] = React.useState()
     const [refres,setRefresh] = React.useState(false)
     const [img,setImge] = React.useState([])
@@ -79,7 +84,12 @@ export default function parkings({navigation}){
             getHosts()
         }   
         else{
-            setData([])
+            setData([{
+                UserName:'',
+                vehicles:0,
+                parkingspace:0,
+                distancematrix:{distance:{text:'0'}}
+            }])
         }
     },[isFocused])
     if(isLoading){
@@ -130,6 +140,7 @@ export default function parkings({navigation}){
                     </Card>))}
                         
                 </View>
+
                 <View style={{backgroundColor:'#121211'}}>
                     <Text style={{alignSelf:'center',color:'white'}}>
                         เลื่อนค้างลงเพื่อ รีเฟรช

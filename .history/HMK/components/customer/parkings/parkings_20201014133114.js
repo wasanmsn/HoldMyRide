@@ -20,7 +20,12 @@ const { width,height } = Dimensions.get('window');
 
 export default function parkings({navigation}){
 
-    const [data,setData] = React.useState([])
+    const [data,setData] = React.useState([{
+        UserName:'',
+        vehicles:0,
+        parkingspace:0,
+        distancematrix:{distance:{text:'0'}}
+    }])
     const [coord,setCord] = React.useState()
     const [refres,setRefresh] = React.useState(false)
     const [img,setImge] = React.useState([])
@@ -34,15 +39,12 @@ export default function parkings({navigation}){
             const query = geoCollection.near({
                 center: new firebase.firestore.GeoPoint(info.coords.latitude,info.coords.longitude),radius : 30
             })
-            await query.get().then(val => {
+            await query.where('verified','==',true).get().then(val => {
                 if(val.empty){
                     setData([])
                 }
                 val.docs.forEach(id => {
-                       
-                        if(id.data().verified){
-                            console.log(id.id)
-                            firestore().collection('host').doc(id.id).get().then( data => {
+                    firestore().collection('host').doc(id.id).get().then( data => {
                         if(data.data().parkingspace > data.data().vehicles){
                             firestorage().refFromURL(data.data().imgIcon).getDownloadURL().then( img => setImge(prev => [...prev,img]))
                             const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${info.coords.latitude},${info.coords.longitude}&destinations=${data.data().houseLocation._latitude},${data.data().houseLocation._longitude}&key=${GOOGLE_MAPS_APIKEY}`
@@ -57,7 +59,7 @@ export default function parkings({navigation}){
                                 setData(hostst)
                             })
                         }
-                    })}
+                    })
                 })
                 setLoading(false)
             }).then(() => {
@@ -79,7 +81,12 @@ export default function parkings({navigation}){
             getHosts()
         }   
         else{
-            setData([])
+            setData([{
+                UserName:'',
+                vehicles:0,
+                parkingspace:0,
+                distancematrix:{distance:{text:'0'}}
+            }])
         }
     },[isFocused])
     if(isLoading){
@@ -130,6 +137,7 @@ export default function parkings({navigation}){
                     </Card>))}
                         
                 </View>
+
                 <View style={{backgroundColor:'#121211'}}>
                     <Text style={{alignSelf:'center',color:'white'}}>
                         เลื่อนค้างลงเพื่อ รีเฟรช
