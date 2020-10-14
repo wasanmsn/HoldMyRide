@@ -79,7 +79,7 @@ function addCar({navigation}){
         host:'',
         parkingAt:'',
         userID:'',
-        Type:'',
+        Type:'car',
         pic:'',
         addDate:firestore.Timestamp.now(),
         status:'available'
@@ -140,7 +140,7 @@ function addCar({navigation}){
                     <Divider style={{borderColor:'black',borderWidth:2}}/>
                     <View>
                         <Picker
-                                selectedValue={'car' }
+                                selectedValue={vehicle.Type }
                                 onValueChange={(itemValue, itemIndex) =>
                                     setVehicle({...vehicle,Type:itemValue})
                                     

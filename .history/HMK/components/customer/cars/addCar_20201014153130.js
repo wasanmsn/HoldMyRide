@@ -1,5 +1,5 @@
-import React, { useState,useMemo } from 'react';
-import { Text, View,StyleSheet, TouchableOpacity,ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import {  View,StyleSheet, TouchableOpacity,ScrollView } from 'react-native';
 import { Input,Divider,Button,Image  } from 'react-native-elements';
 import Header from '../../bar';
 
@@ -27,17 +27,20 @@ async function add(vehicle,navigation){
     await firestore().collection('vehicles').add(vehicle
     ).then(() => {
         console.log("Vehicle added.")
-        alert("Vehicle added.")
+        alert("ทำการเพิ่มสำเร็จ.")
         navigation.goBack()
         
         
-    }).catch(err => console.log("Failed to add new vehicle. \n Erro: ",err.message))   
+    }).catch(err => console.log("Failed to add new vehicle. \n Erro: ",err.message))  
 }
 async function uploadImage(uri,ID){
     // Why are we using XMLHttpRequest? See:
   // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+
   const time = new Date().getTime()
+
   const blob = await new Promise((resolve, reject) => {
+
     const xhr = new XMLHttpRequest();
     xhr.onload = function() {
       resolve(xhr.response);
@@ -55,6 +58,7 @@ async function uploadImage(uri,ID){
     .storage()
     .ref()
     .child(`carPics/${ID}/${time}.jpg`);
+
   const snapshot = await ref.put(blob);
 
   // We're done with the blob, close and release it
@@ -65,7 +69,7 @@ async function uploadImage(uri,ID){
 
 
 
-function addCar({route,navigation}){
+function addCar({navigation}){
     const [imge,setImge] = useState(null)
     const [vehicle,setVehicle] = useState({
         Plate : '',
@@ -77,10 +81,12 @@ function addCar({route,navigation}){
         userID:'',
         Type:'',
         pic:'',
-        addDate:firestore.Timestamp.now()
+        addDate:firestore.Timestamp.now(),
+        status:'available'
     })
     async function getImage(){
         const id = await AsyncStorage.getItem("ID")
+
         ImagePicker.showImagePicker(options,(res) => {
             
             if (res.didCancel){
@@ -91,8 +97,10 @@ function addCar({route,navigation}){
             }
             else{
                 
-               uploadImage(res.uri,id).then( (time) => {
-                    setVehicle({ ...vehicle,pic:`gs://holdmybike-998ed.appspot.com/carPics/${ID}/${time}.jpg`,userID:id })
+               uploadImage(res.uri,id.replace(/\s+/g, "")).then( (time) => {
+                    console.log('hello',id)
+                    setVehicle({ ...vehicle,pic:`gs://holdmybike-998ed.appspot.com/carPics/${id}/${time}.jpg`,userID:id,owner:firestore().doc('customer/'+id) })
+                    console.log(vehicle)
                     setImge(res.uri)}
                     ).catch(err => console.log(err.message
                 ))
@@ -116,7 +124,7 @@ function addCar({route,navigation}){
                     <Divider style={{borderColor:'black',borderWidth:2,margin:5}}/>
                     <View >
                     <Input
-                         placeholder='Plate number'
+                         placeholder='ป้ายทะเบียน'
                          onChangeText={(text) => setVehicle({...vehicle,Plate:text})}
                         />
 
@@ -124,7 +132,7 @@ function addCar({route,navigation}){
                     <Divider style={{borderColor:'black',borderWidth:2}}/>
                     <View>
                         <Input
-                         placeholder='Manufacturer'
+                         placeholder='ยี่ห้อ'
                          onChangeText={(text) => setVehicle({...vehicle,Name:text})}
                         />
                        
@@ -132,12 +140,13 @@ function addCar({route,navigation}){
                     <Divider style={{borderColor:'black',borderWidth:2}}/>
                     <View>
                         <Picker
-                                selectedValue={vehicle.Type}
+                                selectedValue={vehicle.Type }
                                 onValueChange={(itemValue, itemIndex) =>
                                     setVehicle({...vehicle,Type:itemValue})
+                                    
                                 }>
-                                <Picker.Item  label="Car" value="car" />
-                                <Picker.Item  label="Mortocycle" value="mortocycle" />
+                                <Picker.Item  label="รถยนต์" value="car" />
+                                <Picker.Item  label="มอเตอร์ไซต์" value="mortocycle" />
                                 </Picker>
                        
                     </View>
@@ -148,12 +157,14 @@ function addCar({route,navigation}){
             
             <View style={{flex:2,flexDirection:'row',padding:5,justifyContent: 'space-evenly',}}>
                 
-                    <Button title="BACK" containerStyle={{width:100,alignSelf:'flex-end'}} onPress={() => navigation.goBack()} >
+                    <Button title="กลับ" containerStyle={{width:100,alignSelf:'flex-end'}} onPress={() => navigation.goBack()} >
 
                     </Button>
                
              
-                    <Button title="ADD" disabled={!(vehicle.Name != ''  && vehicle.Plate != '' && vehicle.Type != '' && vehicle.pic != '')} containerStyle={{width:100,alignSelf:'flex-end'}} onPress={() => {add(vehicle,navigation)}}>
+                    <Button title="เพิ่มรถ" disabled={vehicle.Name == '' || vehicle.Plate == '' || vehicle.pic == ''} containerStyle={{width:100,alignSelf:'flex-end'}} onPress={() => {
+                        add(vehicle,navigation)
+                        }}>
 
                     </Button>
               
