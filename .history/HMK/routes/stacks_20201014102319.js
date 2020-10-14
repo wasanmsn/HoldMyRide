@@ -83,7 +83,7 @@ function createStack(){
 					type:'host',
 					username:signUpData.UserName,
 					pass:signUpData.Pass })
-						
+						console.log(info.coords)
 						await geoCollection.add({  
 							UserName:signUpData.UserName,
 							email:signUpData.Email,
@@ -102,7 +102,6 @@ function createStack(){
 							createWhen:firestore.Timestamp.now(),
 							imgIcon:'gs://holdmybike-998ed.appspot.com/account.png', 
 							houseLocation:coords,
-							coordinates:coords,
 							houseregis:'',
 							Suspend:false,
 							parkingspace:'',

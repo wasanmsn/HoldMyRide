@@ -102,7 +102,6 @@ function createStack(){
 							createWhen:firestore.Timestamp.now(),
 							imgIcon:'gs://holdmybike-998ed.appspot.com/account.png', 
 							houseLocation:coords,
-							coordinates:coords,
 							houseregis:'',
 							Suspend:false,
 							parkingspace:'',

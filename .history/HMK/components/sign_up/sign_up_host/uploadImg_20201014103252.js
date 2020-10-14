@@ -68,14 +68,8 @@ function uploadimg({route}) {
             </Card>
             <Button title="เสร็จสิ้น" onPress={() => {
                 Geolocation.getCurrentPosition(res => {
-                    if(IDcard && address && lincence){
-                        const location = new firebase.firestore.GeoPoint(res.coords.latitude,res.coords.longitude)
-                        signUpHost(signUpData,{IDcard:IDcard,address:address,lic:lincence},location)
-                    }
-                    else{
-                        alert("เงื่อไขไม่ถูกต้อง")
-                    }
-
+                    const location = 'll'
+                    signUpHost(signUpData,{IDcard:IDcard,address:address,lic:lincence},location)
                 })
                 
             }}></Button>

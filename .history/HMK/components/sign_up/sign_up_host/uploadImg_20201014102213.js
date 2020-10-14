@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, Button , TouchableOpacity,Image} from 'react-native';
 import  {AuthContext}  from '../../../routes/stacks';
 import Linegrad from 'react-native-linear-gradient'
-import { firebase } from '@react-native-firebase/firestore';
 import {Card,Title} from 'react-native-paper'
 import Icons from 'react-native-vector-icons/FontAwesome5'
 import ImagePicker from 'react-native-image-picker'
@@ -68,14 +67,7 @@ function uploadimg({route}) {
             </Card>
             <Button title="เสร็จสิ้น" onPress={() => {
                 Geolocation.getCurrentPosition(res => {
-                    if(IDcard && address && lincence){
-                        const location = new firebase.firestore.GeoPoint(res.coords.latitude,res.coords.longitude)
-                        signUpHost(signUpData,{IDcard:IDcard,address:address,lic:lincence},location)
-                    }
-                    else{
-                        alert("เงื่อไขไม่ถูกต้อง")
-                    }
-
+                    signUpHost(signUpData,{IDcard:IDcard,address:address,lic:lincence},res.coords)
                 })
                 
             }}></Button>

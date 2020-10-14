@@ -9,7 +9,7 @@ import * as geofirestore from 'geofirestore'
 import Loading from '../components/loading';
 import HostStack from './hostStack';
 import SignupStacks from './signupStacks';
-
+import Geolocation from '@react-native-community/geolocation';
 const geoFire = geofirestore.initializeApp(firestore())
 const geoCollection = geoFire.collection('host')
 const AuthContext = createContext();
@@ -77,12 +77,13 @@ function createStack(){
 				});
 				
 			},
-			signUpHost: async (signUpData,uri,coords)  =>{
+			signUpHost: async (signUpData,uri)  =>{
 				console.log(uri)
 				const stringData = JSON.stringify({
 					type:'host',
 					username:signUpData.UserName,
 					pass:signUpData.Pass })
+					Geolocation.getCurrentPosition( async info => {
 						
 						await geoCollection.add({  
 							UserName:signUpData.UserName,
@@ -101,8 +102,7 @@ function createStack(){
 							Country:'',     
 							createWhen:firestore.Timestamp.now(),
 							imgIcon:'gs://holdmybike-998ed.appspot.com/account.png', 
-							houseLocation:coords,
-							coordinates:coords,
+							houseLocation:new firebase.firestore.GeoPoint(info.coords.latitude, info.coords.longitude),
 							houseregis:'',
 							Suspend:false,
 							parkingspace:'',
@@ -150,7 +150,7 @@ function createStack(){
 								return
 							  }
 						})
-					
+					})
 					
 				
 			},
